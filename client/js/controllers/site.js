@@ -1,12 +1,8 @@
 Members = new Meteor.Collection("members");
 
 Router.map( function () {
-  this.route('home2', {
-    // get parameter via this.params
-    path: '/next',
-    action: function() {  window.location = '/home/index.html';}
-  });
-  this.route('home', {
+  
+  this.route('demo', {
     // get parameter via this.params
     path: '/'
   });
