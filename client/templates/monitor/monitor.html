@@ -1,0 +1,119 @@
+<template name="monitor">
+
+	<div id="device_main_frame" >
+
+		{{>monitor_screen}}
+
+	</div>
+
+</template>
+
+<template name="monitor_devices">
+	<div style="width:300px;">
+	<select id="select_device" style="background-color:black; border-color: black; color: white;">
+		<option selected="true" >--Select a device--</option>
+		{{#each devices}}
+			<option name="{{_id}}">{{_id}}</option>
+		{{/each}}
+	</select>
+	</div>
+</template>
+
+<template name="device_data">
+
+	<div class="device_stats_box">
+		<div id="current_viewers" class="top_stats_number">
+			{{current_viewers}}
+		</div>
+		<div class="top_stats_title">
+			Current Viewers
+		</div>	
+	</div>
+	<div class="device_stats_box">
+		<div class="top_stats_number">
+			<span id="seconds_viewed">{{seconds_viewed}}</span><span style="font-size:10px">seconds</span>
+		</div>
+		<div class="top_stats_title">
+			Time viewed
+		</div>	
+	</div>
+
+	<div class="device_stats_box">
+		<div id="top_stats_number" class="top_stats_number">
+			
+		</div>
+		<div class="top_stats_title">
+			Effectiveness
+		</div>	
+	</div>
+
+</template>
+
+<template name="effectiveness">
+ 		<span id="seconds_viewed"><img src="/images/male.png" height="70px"> X1</span><span style="font-size:10px">Adult</span>
+</template>
+
+
+
+<template name="monitor_screen">
+	<div id="middle_screen">
+		<div id="middle_screen_top">
+			<div class="device_centered">
+				<div id="device_video_and_circle" class="device_centered">
+					
+					<div id="stats_and_what_not" style="display:block; width: 480px;height:480px">
+						<canvas id="caney_canvas" width="640" height="480" style="overflow:hidden; position:absolute;left:0px;">
+					  	</canvas>
+						<div class="device_centered" >
+							{{>monitor_devices}}
+
+						</div>
+
+					</div>
+
+					<div id="stats_and_what_not" style="display:block; width: 480px; height:480px">
+						<div class="device_centered" >
+							<div class="stats_wrapper device_hidden_object" id="stats_here" style="">
+
+								{{>device_data data}}
+
+							</div>
+							
+
+						</div>
+					</div>
+
+
+				      
+				</div>
+				<div id="rla_circle">
+					<div class="device_centered">
+						
+						<div class="device_centered" style="padding:0px;margin:0px;height:300px;width:300px;background-color:rgba(200,200,200,.5);z-index:2000;border-radius: 60%;">
+                      		<center>
+                      			<img id="cosa"  style="height:300px;width:300px;background-color:rgba(200,200,200,.5);z-index:2000;border-radius: 60%;" />
+                      		</center>
+                    	</div> 
+                    	
+					</div>
+				</div>	
+			</div>
+		</div>
+		<div id="middle_screen_bottom">
+			<div class="device_centered">
+				<div style="padding:0px;margin:0px;font-size:40px">
+                      Real Life Analytics
+                 </div> 
+			</div>
+		</div>	
+	</div>
+	<div style="position:absolute">
+		<video autoplay loop class="fillWidth" id="device_video" style="position:absolute;visibility:hidden"> 
+				         
+				        
+				        <source src="http://yourwebsite.com/your-video-file.ogg" type="video/ogg"/> 
+				        <source src="http://yourwebsite.com/your-video-file.webm" type="video/webm"/> 
+				         
+				      </video> 
+	</div>
+</template>

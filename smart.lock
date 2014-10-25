@@ -1,0 +1,65 @@
+{
+  "meteor": {},
+  "dependencies": {
+    "basePackages": {
+      "bootstrap-3": {},
+      "parallax": {},
+      "streams": {},
+      "wait-on-lib": {},
+      "canvas-image-manipulation": {},
+      "iron-router": {}
+    },
+    "packages": {
+      "bootstrap-3": {
+        "git": "https://github.com/mangasocial/meteor-bootstrap-3.git",
+        "tag": "v3.2.0-1",
+        "commit": "17a63902fc6cf1096c5289d963c66cf28b474727"
+      },
+      "parallax": {
+        "git": "https://github.com/kidovate/meteor-parallax.git",
+        "tag": "v0.1.3",
+        "commit": "ec5dd02ac93af3bb1d7cf1a1bdb721dfefc0aae0"
+      },
+      "streams": {
+        "git": "https://github.com/arunoda/meteor-streams.git",
+        "tag": "v0.1.17",
+        "commit": "9fcbbc9b7bf542827babc92089c19e730892a22f"
+      },
+      "wait-on-lib": {
+        "git": "https://github.com/DerMambo/wait-on-lib.git",
+        "tag": "v0.0.3",
+        "commit": "ee83a431019b59c341903c3f732ff3d8d038a8ce"
+      },
+      "canvas-image-manipulation": {
+        "git": "https://github.com/jackp/canvas-image-manipulation.git",
+        "tag": "v0.1.0",
+        "commit": "bd29971e84b1f37168bca4548f621df26845c978"
+      },
+      "iron-router": {
+        "git": "https://github.com/EventedMind/iron-router.git",
+        "tag": "v0.8.1",
+        "commit": "74e867557fd9cb81173e048e5f81cf4a0a1160a8"
+      },
+      "iron-layout": {
+        "git": "https://github.com/EventedMind/iron-layout.git",
+        "tag": "v0.2.0",
+        "commit": "4a2d53e35ba036b0c189c7ceca34be494d4c6c97"
+      },
+      "blaze-layout": {
+        "git": "https://github.com/EventedMind/blaze-layout.git",
+        "tag": "v0.2.5",
+        "commit": "273e3ab7d005d91a1a59c71bd224533b4dae2fbd"
+      },
+      "iron-core": {
+        "git": "https://github.com/EventedMind/iron-core.git",
+        "tag": "v0.2.0",
+        "commit": "0e48b5dc50d03f01025b7b900fb5ce2f13d52cad"
+      },
+      "iron-dynamic-template": {
+        "git": "https://github.com/EventedMind/iron-dynamic-template.git",
+        "tag": "v0.2.1",
+        "commit": "4dd1185c4d9d616c9abdb3f33e4a7d5a88db7e18"
+      }
+    }
+  }
+}

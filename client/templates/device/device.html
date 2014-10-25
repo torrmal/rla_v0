@@ -1,0 +1,74 @@
+<template name="device">
+
+	<div id="device_main_frame" >
+
+		{{>device_middle_screen}}
+
+	</div>
+	<div style="position:absolute">
+		<video autoplay loop class="fillWidth" id="device_video" style="position:absolute;visibility:hidden"> 
+				         
+				        
+				       
+		</video> 
+	</div>
+	<div id="device_advert" class="device_hidden_object">
+		<img src="http://newcarsconcepts.com/wp-content/uploads/2013/07/Audi-R8.jpg" width="100%"/>
+	</div>
+
+</template>
+
+<template name="device_middle_screen">
+	<div id="middle_screen">
+		<div id="middle_screen_top">
+			<div class="device_centered">
+				<div id="device_video_and_circle" class="device_centered">
+					
+					<div id="stats_and_what_not" style="display:block; width: 480px;height:480px">
+						<canvas id="caney_canvas" width="640" height="480" style="">
+					  	</canvas>	
+					</div>
+
+					<div id="stats_and_what_not" style="display:block; width: 480px; height:480px">
+						<div class="device_centered" style="">
+							
+								
+
+								<div class="device_centered" style="margin-left:20px; width: 200px;z-index:2010;">
+									<input type="text" id="device_name" name="device_name" style="font-color:white;background-color:black;border-radius:5px;" placeholder="device name">
+								</div>
+
+								<div style="border-color:white;background-color:white;padding:10px;border-radius:5px;cursor:pointer;" id="connect_to_server">
+									Connect
+								</div>
+							
+
+						</div>
+					</div>
+
+
+				      
+				</div>
+				<div id="rla_circle">
+					<div class="device_centered">
+						
+						<div class="device_centered" style="padding:0px;margin:0px;height:300px;width:300px;background-color:rgba(200,200,200,.5);z-index:2000;border-radius: 60%;">
+                      		<center>
+                      			<img src="/images/logo.png" height="80px" style="margin:5px;"/>
+                      		</center>
+                    	</div> 
+                    	
+					</div>
+				</div>	
+			</div>
+		</div>
+		<div id="middle_screen_bottom">
+			<div class="device_centered">
+				<div style="padding:0px;margin:0px;font-size:40px">
+                      Real Life Analytics
+                 </div> 
+			</div>
+		</div>	
+	</div>
+	
+</template>

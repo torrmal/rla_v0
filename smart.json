@@ -1,0 +1,10 @@
+{
+  "packages": {
+    "bootstrap-3": {},
+    "parallax": {},
+    "streams": {},
+    "wait-on-lib": {},
+    "canvas-image-manipulation": {},
+    "iron-router": {}
+  }
+}

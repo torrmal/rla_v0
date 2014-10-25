@@ -1,0 +1,273 @@
+
+
+<template name="parallax">
+    {{#each items}}
+      <div id="{{id}}" class="full_width_div parallax_items" style="height:{{parallax_height}};top:{{parallax_top}}; background-color:white;">
+          {{> UI.dynamic template=template.name data=template.data}}
+      </div>
+    {{/each}}
+    
+  
+
+</template>
+
+
+<template name="one_liner_parallax">
+
+  <div id="one_liner_video_box" class="full_width_div" style="top:{{top}};  bottom:0px; ">
+    
+      <div id="centered_for_video" class="centered" style="overflow:hidden;background-color:black;" >
+        &nbsp;
+        {{>video_template}}
+      </div>
+      <div class="full_width_div" style="top:0px; bottom:0px; ">
+        <div id="one_liners" class="centered" style="font-size: 50px; color:white;" >
+          
+            <div style="display:block;width:400px;height:400px;border-radius:60%;background-color:rgba(255,255,255,0.9);border-style:solid;">
+              <div style="position:absolute;height:400px;width:400px;">
+              <div class="centered" style="color:black;font-weight:100;max-width:400px;">
+                  <span style="">
+                    <div style="padding:0px;margin:0px;height:100px">
+                      <center>
+                      <img src="/images/logo.png" height="100px">
+                      </center>
+                    </div> 
+                    <div style="padding:0px;margin:0px;font-size:40px">
+                      Real Life Analytics
+                    </div> 
+                    
+                  </span>
+                  
+                 
+              </div>
+              </div>
+            </div>
+          
+        </div>
+      </div>  
+  </div>
+
+
+</template>
+
+<template name="section_banner">
+  <span id="product_banner" style="font:size:30px;">
+    <ul style="list-style-type:none;padding: 0px;margin: 0px;">
+      {{#each messages}}
+        <li style="list-style-type:none;padding: 0px;margin: 0px;{{#if line}}border-bottom: solid 1px;{{/if}}">
+          {{m}}
+        </li>
+      {{/each}}
+    </ul>
+  </span>  
+</template>
+
+<template name="video_template">
+
+    <div id="video-container" class="blured relative_contain" style="position:absolute; overflow: hidden;"> 
+      <video autoplay loop class="fillWidth" id="top_video"> 
+        <source src="/videos/top_video2.webm" type="video/webm"/>
+        <source src="/videos/top_video2.mp4" type="video/mp4"/> 
+        <!--
+        <source src="http://yourwebsite.com/your-video-file.ogg" type="video/ogg"/> 
+        <source src="http://yourwebsite.com/your-video-file.webm" type="video/webm"/> -->
+         
+      </video> 
+    </div> 
+  
+</template>
+
+<template name="section_title">
+  <div class="section_title">
+    {{section_name}}
+  </div>
+</template>
+
+<template name="hw_step_box">
+      <div style="display:block;position:absolute;">
+          <div>
+            <div class="centered" style="width:100%; text-align:center;height:180px;">
+              <div class="centered" style="height:100px;width:100px;border-style:solid;border-radius:60%;font-size:30px;font-weight:100;border-color: #1abc9c; color: #1abc9c;">
+                {{step}}
+              </div>
+              
+            </div>
+            <div style="width:100%;left:0px; text-align:center; overflow: auto">
+                {{text}}
+            </div>
+          </div>
+        </div>
+</template>
+
+<template name="product_description">
+      <div style="display:block;position:absolute; text-align:left;">
+          <div >
+            
+            <div style="width:100%;left:0px; text-align:center; overflow: auto; text-align:left;">
+               <ul>
+              <li>
+                Analyze demographic data using a camera. 
+              </li>
+              <li>
+                Personalized ads on digital screens.
+              </li>
+              <li> 
+                Engage with customers. 
+              </li>
+
+              <li>
+                On site processing, privacy aware, no images are stored.
+              </li> 
+
+              <li>
+                Create simple custom statistics dashboard.
+              </li>
+
+              <li>
+                Connect external management systems
+              </li>
+              
+                
+            </ul>
+            </div>
+          </div>
+        </div>
+</template>
+
+<template name="product_photo">
+      <div style="display:block;position:absolute;z-index:100;top:180px;">
+          <div>
+            <div class="centered" style="width:100%; text-align:center;height:200px;">
+              <div class="centered" style="height:200px;width:200px;border-style:solid;border-radius:60%;font-size:30px;font-weight:1px;background-image:url('/images/productv.png');background-repeat:no-repeat;background-size:contain;background-position:center;background-color:white;border-color:#1abc9c;">
+                {{step}}
+              </div>
+              
+            </div>
+           
+          </div>
+        </div>
+</template>
+
+<template name="product_video">
+      <div style="display:block;position:absolute; ">
+          
+            
+              <div class="centered" style="height:300px;width:500px;border-style:solid;border-radius:5%;font-size:30px;font-weight:1px;background-image:url('/images/bg_video2.png');background-repeat:no-repeat;background-size:contain;background-position:center;top:0px;position:absolute; background-color:black;">
+                <div id="video-container" class="relative_contain" style="position:absolute; overflow: hidden;  left:0px; right:0px;"> 
+                  &nbsp;
+                  <video autoplay loop class="centered fillWidth" style="left:0px"> 
+                      <source src="/videos/product_video4.webm" type="video/webm"/>
+                      <source src="/videos/product_video4.mp4" type="video/mp4"/>
+                      <!--
+                      <source src="http://yourwebsite.com/your-video-file.ogg" type="video/ogg"/> 
+                      <source src="http://yourwebsite.com/your-video-file.webm" type="video/webm"/> -->
+                       
+                    </video> 
+                  </div> 
+              </div>
+              
+           
+           
+          
+        </div>
+</template>
+
+<template name="pricing_box">
+      <div style="display:block;position:absolute;">
+          <div>
+            <div class="centered" style="width:100%; text-align:center;height:180px;">
+              <div class="centered" style="height:100px; padding:0px;color: #1abc9c;font-size:40px;border-bottom:1px solid;">
+                {{step}} &nbsp; <span class="{{icon}}"></span>
+              </div>
+              
+            </div>
+            <div style="width:100%;left:0px; text-align:center; overflow: auto">
+                {{text}}
+            </div>
+          </div>
+        </div>
+</template>
+
+<template name="questions_box">
+      <div style="display:block;position:absolute; border:1px solid #1abc9c; border-radius: 5px;margin-top:100px;padding:20px;padding-top:0px;">
+          <div>
+            <div class="centered" style="width:100%; text-align:center;">
+              <div class="centered" style="height:100px; padding:0px;color: #1abc9c;font-size:40px;">
+                {{step}} &nbsp; <span class="{{icon}}"></span>
+              </div>
+              
+            </div>
+            <div style="width:100%;left:0px; text-align:center; overflow: auto">
+                {{text}}
+            </div>
+          </div>
+        </div>
+</template>
+
+<template name="join_us">
+      
+     
+      <span style="display:block;position:absolute;right:0px;width:95%;margin:0px;top:0px;bottom:0px;">
+         {{> questions_box questions}} 
+      </span>
+</template>
+
+
+<template name="pricing">
+      <span style="display:inline-block;position:absolute;left:0px;width:45%;margin:0px;top:0px;bottom:0px;">
+        {{> pricing_box owners}} 
+      </span>
+     
+      <span style="display:block;position:absolute;right:0px;width:45%;margin:0px;top:0px;bottom:0px;">
+        {{> pricing_box adverts}} 
+      </span>
+</template>
+
+<template name="how_it_works">
+      <span style="display:inline-block;position:absolute;left:0px;width:30%;margin:0px;top:0px;bottom:0px;">
+        {{> hw_step_box step1}} 
+      </span>
+      <span style="display:block;position:absolute;right:35%;width:30%;margin:0px;top:0px;bottom:0px;">
+        {{> hw_step_box step2}} 
+      </span>
+      <span style="display:block;position:absolute;right:0px;width:30%;margin:0px;top:0px;bottom:0px;">
+        {{> hw_step_box step3}} 
+      </span>
+</template>
+
+<template name="product">
+      <span style="display:inline-block;position:absolute;left:0px;width:30%;margin:0px;top:0px;bottom:0px;">
+        {{> product_description}} 
+      </span>
+      <span style="display:block;position:absolute;right:35%;width:30%;margin:0px;top:0px;bottom:0px;">
+        {{> product_photo}} 
+      </span>
+      <span style="display:block;position:absolute;right:0px;width:50%;margin:0px;top:0px;bottom:0px;">
+        {{> product_video}} 
+      </span>
+</template>
+
+<template name="menu_item_parallax" >
+  <div class="full_width_div" style="height:20%; background-color:white;overflow:hidden;">
+    <div class="centered" style="position:relative;width:80%;left:10%;">
+      &nbsp;
+      <span style="display:inline-block;position:absolute;left:0px;width:50%;margin:0px;top:0px;bottom:0px;">
+        <div class="centered_left">
+           {{> UI.dynamic template=left_template.name data=left_template.data}}
+        </div>
+      </span>
+      <span style="display:block;position:absolute;right:0px;width:50%;margin:0px;top:0px;bottom:0px;">
+        <div class="centered_right">
+          {{> UI.dynamic template=right_template.name data=right_template.data}}
+          
+        </div>
+      </span>
+    </div>
+  </div> 
+  <div class="full_width_div" style="height:80%;top:30%;overflow:hidden">
+    <div class="centered" style="position:relative;width:80%;left:10%; ">
+      &nbsp;
+      {{> UI.dynamic template=content_template.name data=content_template.data}}
+    </div>
+  </div> 
+</template>

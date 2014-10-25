@@ -1,0 +1,57 @@
+@import "lesshat-prefixed.less";
+
+.center_content(@horizontal:center;@horizontal2:center){
+	display: -webkit-box;   /* OLD: Safari,  iOS, Android browser, older WebKit browsers.  */
+   display: -moz-box;      /* OLD: Firefox (buggy) */ 
+   display: -ms-flexbox;   /* MID: IE 10 */
+   display: -webkit-flex;  /* NEW, Chrome 21–28, Safari 6.1+ */
+   display: flex;          /* NEW: IE11, Chrome 29+, Opera 12.1+, Firefox 22+ */
+
+   -webkit-box-align: center; -moz-box-align: center; /* OLD… */
+   -ms-flex-align: center; /* You know the drill now… */
+   -webkit-align-items: center;
+   align-items: center;
+
+   -webkit-box-pack: @horizontal2; -moz-box-pack: @horizontal2; 
+   -ms-flex-pack: @horizontal; 
+   -webkit-justify-content: @horizontal;
+   justify-content: @horizontal;
+
+   margin: 0;
+   height: 100%;
+   width: 100% /* needed for Firefox */
+}
+
+
+
+.debug(@rgb:grey) {
+    //.lh-opacity(.5); 
+    //z-index:@zi;
+    //background-color: rgb(@rgb,@rgb,@rgb);
+    //border-style: dotted;
+    //border-color: @rgb;
+    //border-width: 0px;
+}
+
+.full_box_block_mixin(@tposition:absolute;@top:0px;@bottom:auto;@left:0px;@right:0px){
+	
+	.center_content;
+	position:@tposition;
+    margin:0px;
+	left:@left;
+	right:@right;
+    top:@top;
+    bottom:@bottom;
+    height: auto;
+}
+
+.full_box_block_uncentered_mixin(@tposition:absolute;@top:0px;@bottom:auto;@left:0px;@right:0px){
+    
+    display:block;
+    position:@tposition;
+    margin:0px;
+    left:@left;
+    right:@right;
+    top:@top;
+    bottom:@bottom;
+}

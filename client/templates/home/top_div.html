@@ -1,0 +1,37 @@
+
+<template name="top_div">
+  <div id="top_div" class="full_width_div" style="z-index:1000;height:{{height}};position:fixed; background-color:rgba(255,255,255,1)">
+  	
+  		<div id="main_links" class="centered_right" >
+  			
+  				{{#each menu_items}}
+
+  					{{#if is_button}}
+				    	<span class="top_menu_items">
+			  				<button id="{{id}}_link" class="btn btn-embossed btn-primary">
+							  Join
+							</button>
+			  			</span>
+			  		{{else}}
+			  			{{#if is_link}}
+			  				<span id="{{id}}_link" class="top_menu_items" style="cursor:pointer;" onclick="window.location='{{is_link}}'">
+				  				{{name}}
+				  			</span>
+			  			{{else}}
+				  			<span id="{{id}}_link" class="top_menu_items" style="cursor:pointer;">
+				  				{{name}}
+				  			</span>
+			  			{{/if}}
+			  		{{/if}}
+
+			    {{/each}}
+	  			
+	  			
+	  			
+  			
+  			
+  		</div>
+  	
+  </div>
+
+</template>

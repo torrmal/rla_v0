@@ -1,0 +1,116 @@
+@import 'mixins/maini.less';
+
+#device_main_frame {
+	display:block;
+	top:0px;
+	bottom:0px;
+	left:0px;
+	right:0px;
+	background-color:white;
+	position:absolute;
+	.center_content;
+}
+
+#dashboard_bga{
+	.center_content
+}
+
+#dashboard_bga2{
+	.center_content
+}
+
+#middle_screen{
+	display: block;
+	position: relative;
+	width: 100%;
+	height: 550px;
+	background-color: white;
+	
+}
+
+#middle_screen_top{
+	display:block;
+	position: relative;
+	width: 100%;
+	height: 480px;
+	top:0px;
+	margin:0px;
+	background-color: black;
+
+}
+
+#rla_circle{
+	display:block;
+	position: relative;
+	border-radius: 60%;
+	height: 300px;
+	width:300px;
+	background-color: rgba(255,255,255,0.4);
+}
+
+@stats_width: 130px;
+@stats_number: 100px;
+@stats_title: 50px; 
+.stats_wrapper{
+	width: @stats_width;
+	margin-left:40px
+}
+
+.top_stats_number{
+	.center_content;
+	font-size: 100px;
+	height: @stats_number;
+}
+
+.top_stats_title{
+	.center_content;
+	height: 30px;
+}
+
+.device_hidden_object{
+	position:absolute;
+	visibility:hidden;
+	height:0px;
+}
+
+.device_stats_box{
+	color:white;
+	display: block;
+	float:left;
+	position: relative;
+	clear:left;
+	border-color: black;
+	margin: 10px;
+	width: 200px;
+	height: @stats_width;
+	
+
+}
+
+.device_centered{
+	display:block;
+	position: relative;
+	width: 100%;
+	.center_content;
+	
+}
+
+#device_video_and_circle{
+	position: absolute;
+	left:0px;
+	width: 100%;
+	height: 480px;
+	background-color: black;
+	overflow: hidden;
+	
+}
+
+#middle_screen_bottom{
+	display:block;
+	position: relative;
+	width: 100%;
+	height: 70px;
+	top:0px;
+	margin:0px;
+	background-color: white;
+}

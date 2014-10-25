@@ -1,0 +1,510 @@
+/* Custom CSS Stylesheet */
+
+/*lightest: color: #B8B8B8;*/
+/**darkest: color: #666;/
+/*middle: color: #7f7f7f*/
+
+/**************************** General Style ****************************/
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,300,400,700);
+html,
+body {
+    font-family: "Source Sans Pro", 'Open Sans', sans-serif;
+    font-weight: 200;
+    background: #ffffff;
+    height: 100%;
+}
+
+hr {
+	border: 0;
+	height: 1px;
+	width: 100%;
+    background-image: -webkit-linear-gradient(left, #ffffff, #d4d4d4, #ffffff);
+    background-image:    -moz-linear-gradient(left, #ffffff, #d4d4d4, #ffffff);
+    background-image:     -ms-linear-gradient(left, #ffffff, #d4d4d4, #ffffff);
+    background-image:      -o-linear-gradient(left, #ffffff, #d4d4d4, #ffffff);
+}
+
+.dark-font {
+	color: #666;
+}
+
+.middle-font {
+	color: #7f7f7f;
+}
+
+.light-font {
+	color: #B8B8B8;
+}
+
+footer {
+	background-color: #dedede;
+	text-align: left;
+}
+
+p {
+	margin-bottom: 1px;
+}
+
+
+/* User login/Sign Up buttons */
+.btn-empty {
+	background-color: #ffffff;
+	border-color:  #7EC56A;
+	border-style: solid;
+	border-width: 1px;
+	color: #7EC56A;
+}
+
+.btn-empty:hover {
+	border-color:  #afe862;
+	color: #afe862;
+}
+
+.btn-filled {
+	background-color: #7EC56A;
+	border-color:  #7EC56A;
+	border-style: solid;
+	border-width: 1px;
+	color: #ffffff;
+}
+
+.btn-filled:hover {
+	background-color: #afe862;
+	border-color:  #afe862;
+	color: #ffffff;
+}
+
+#user-buttons {
+	padding-bottom: 2em;
+	padding-top: 2em;
+}
+
+/**************************** Section Styling *****************************/
+.landing-section {
+	height: 100%;
+	text-align: center;
+	background: #ffffff;
+}
+
+.our-process-section,
+.benefits-section,
+.detection-section,
+.pricing-section,
+.presence-section,
+.team-section,
+.contact-section {
+	height: 100%;
+	text-align: center;
+	background: #ffffff;
+}
+
+.content {
+	position: relative;
+	top: 10%;
+	height: 90%;
+}
+.full {
+	height: 100%;
+}
+
+.percent90 {
+	height:	90%;
+}
+
+.percent80 {
+	height: 80%;
+}
+
+.percent70 {
+	height: 70%;
+}
+
+.percent60 {
+	height: 60%;
+}
+
+.half {
+	height: 50%;
+}
+
+.percent40 {
+	height: 40%;
+}
+
+.percent30 {
+	height: 30%;
+}
+
+.third {
+	height: 33%;
+}
+
+.quarter {
+	height: 25%;
+}
+
+.fifth {
+	height: 20%;
+}
+
+.tenth {
+	height: 10%;
+}
+/**************************** Landing Section ****************************/
+#outside-nav {
+	height: 75%;
+}
+
+#landing-upper {
+	height: 20%;
+}
+
+#landing-middle {
+	position: relative;
+	height: 90%;
+	width: 100%;
+	overflow: hidden;
+}
+
+#RLA-circle {
+	position: absolute;
+	top: 5%;
+	left: 37.5%;
+	background-color: rgba(250,250,250,0.7);
+	border: 3px solid white;
+	height: 350px;
+	width: 350px;
+}
+
+#brain-logo {
+	position: absolute;
+	top: 15%;
+	left: 30%;
+	height: 40%;
+	width: 40%;
+}
+
+#RLA-name {
+	position: absolute;
+	top: 60%;
+	left: 0%;
+	font-size: 36px;
+	font-style: bold;
+	color: #666;
+}
+
+#landing-bottom {
+	height: 20%;
+	width: 100%;
+	overflow: hidden;
+}
+
+#video-container{
+	position:absolute; 
+	left:0px;
+	top:16%;
+	right:0px;
+	height:55%;
+	width:100%;
+	overflow: hidden;
+}
+
+/* Navigation */
+.affix {
+    top: 0px;
+}
+
+#topNav {
+	width:100%;
+	
+	color: black;
+	text-align: center;
+	
+}
+
+.nav-pills > li > a {
+	
+	color: black;
+	font-size: 18px;
+}
+
+.nav-pills > li.active > a,
+.nav-pills > li.active > a:hover,
+.nav-pills > li > a:hover {
+	background-color: white;
+	color: #B8B8B8;
+}
+
+#myNav {
+	
+	padding-top: 1em;
+}
+
+.glyphicon-chevron-down {
+	color: #d4d4d4;
+	font-size: 30px;
+}
+
+.glyphicon-chevron-down:hover {
+	color: #afe862;
+}
+
+#affixThis {
+	text-align: center;
+	height: 60px;
+	background-color: white;
+	z-index: 10000;
+	border-bottom-right-radius: 10px;
+	border-bottom-left-radius: 10px; 
+}
+/**************************** Our Process Section ****************************/
+img.process {
+	max-height: 80%;
+}
+
+img.process2 {
+	max-height: 90%;
+}
+
+p.process-step {
+	margin-top: 0.8em;
+	font-size: 1.4em;
+}
+
+div.push-right {
+	margin-left: 3em;
+}
+
+img#arrow {
+	max-width: 70%;
+	margin-top: 2em;
+	margin-left: -2em;
+}
+
+img#arrowd {
+	margin-top: 5em;
+}
+
+img#arrow2 {
+	max-height: 100%;
+	margin-left: 1em;
+	margin-top: -2em;
+}
+
+img#arrow3 {
+	max-height: 100%;
+}
+
+img#arrow4 {
+	max-width: 70%;
+	margin-bottom: 2em;
+	margin-left: 8em;
+	margin-top: -1em;
+}
+/**************************** Our Process Section ****************************/
+
+/**************************** Benefits Section ****************************/
+.benefits-circle {
+	margin-top: 5em;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #7EC56A;
+	height: 20em;
+	width: 20em;
+	-moz-border-radius:50%;
+	-webkit-border-radius: 50%;
+	z-index: 1;
+}
+.glyphicon-usd {
+	position: relative;
+	top: 25%;
+	left: -2%;
+	color: #ededed;
+	font-size: 10em;
+	z-index: 2;
+}
+.glyphicon-bullhorn {
+	position: relative;
+	top: 23%;
+	left: -2%;
+	color: #ededed;
+	font-size: 10em;
+	z-index: 2;
+}
+.glyphicon-shopping-cart {
+	position: relative;
+	top: 25%;
+	color: #ededed;
+	font-size: 10em;
+	z-index: 2;
+}
+
+p.benefits-text {
+	font-size: 1.5em;
+	margin-top: 1em;
+	margin-right: 2em;
+	margin-left: 2em;
+}
+
+span.green-text {
+	color: #7EC56A;
+}
+/**************************** Benefits Section ****************************/
+
+/**************************** Detection Section ****************************/
+div#we-detect {
+	margin-top: 1em;
+}
+
+img.detection1 {
+	max-height: 80%;
+}
+
+img.detection2 {
+	max-height: 75%;
+}
+/**************************** Detection Section ****************************/
+
+/**************************** Pricing Section ****************************/
+table {
+	margin-top: 2em;
+}
+
+th {
+	text-align: center;
+	font-weight: 100;
+	font-size: 2em;
+	background-color: #7EC56A;
+	color: #ededed;
+}
+
+td {
+	font-size: 1.5em;
+	color: #7f7f7f;
+}
+
+.table-bordered {
+	border: 1px solid #7EC56A;
+}
+
+img.stores {
+	max-height: 15%;
+}
+/**************************** Pricing Section ****************************/
+
+/**************************** Presecence Section *****************************/
+img.press {
+	max-height: 70%;
+}
+
+h3#partners-banner {
+	color: #666;
+}
+
+img.partner {
+	max-width: 15%;
+	margin-right: 2em;
+}
+
+img.press {
+	margin-top: 0.7em;
+	margin-right: 1em;
+	max-width: 30%;
+}
+
+.partners-logos {
+	margin-top: 1em;
+}
+
+blockquote > p {
+	font-size: 14px;
+	text-align: left;
+}
+
+blockquote > footer {
+	background-color: #ffffff;
+}
+
+#partners-banner {
+	margin-top: .5em;
+}
+
+#first-quote {
+	margin-top: 1.8em;
+}
+
+.press-link {
+	color: #B8B8B8;
+	text-decoration: none;
+}
+
+a.press-link:hover {
+	color: #afe862;
+	text-decoration: none;
+}
+/**************************** Team Section *****************************/
+img.team-picture {
+	max-height: 50%;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+div#founders > div.team-info {
+	margin-top: 7em;
+}
+
+div.blur {
+	position: relative;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	width: 80%;
+	margin-left: 3em;
+}
+
+div.contact-info {
+	width: 15em;
+	height: 4em;
+	position: absolute;
+	top: 40%;
+	left: 20%;
+	display: none;
+}
+
+.blur img.team-picture {
+  -webkit-transition: all 0.5s ease;
+     -moz-transition: all 0.5s ease;
+       -o-transition: all 0.5s ease;
+      -ms-transition: all 0.5s ease;
+          transition: all 0.5s ease;
+}
+
+div.blur:hover img.team-picture {
+  -webkit-filter: blur(5px);
+}
+
+img.team-contact {
+	width: 4em;
+	height: 4em;
+	margin-right: 1em;
+	float: right;
+}
+/**************************** Contact Section *****************************/
+.map {
+	max-height: 70%;
+	display: block;
+	margin: auto;
+}
+
+.logo {
+	margin-top: 1.8%;
+}
+
+.logo_image {
+	max-height: 90%;
+}
+
+#footer-text {
+	padding-top: 1.8%;
+	padding-left: 1%;
+	color: #ababab;
+}

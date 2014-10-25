@@ -1,0 +1,85 @@
+body {
+    margin: 0;
+}
+/**
+#main_street_view {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}**/
+#inputVideo {
+    display: none;
+}
+#searchForm {
+    position: absolute;
+    z-index: 10;
+    top: 0px;
+    right: 0px;
+    left:0px;
+    bottom:0px;
+}
+#searchInput {
+    width: 250px;
+}
+#headtrackerMessageDiv {
+    top: 200px !important;
+    font-weight: bold !important;
+}
+
+#start{
+    background-color: #1abc9c;
+    padding: 5px;
+    border-radius: 3px;
+    cursor: pointer;
+    width: 200px;
+    color: white;
+    
+
+}
+
+.right_content{
+  display: inline-block;
+  position: absolute;
+  float: right;
+  right: 0%;
+  top: 0px;
+ 
+ 
+  width:415px;
+  height:491px;
+
+}
+
+/**
+// 415x491  41,91 - 288,459,
+
+
+.right_content{
+ 
+  right: 5%;
+  top: 50px;
+  width: 400px;
+  height: 400px;
+  color:white;
+  font-family: Helvetica;
+
+  display: -webkit-flexbox;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 50px;
+  border-style: solid;
+  border-color: rgba(255,255,255,0.5);
+  border-radius: 50%;
+  
+
+}
+*/

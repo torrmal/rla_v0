@@ -1,0 +1,172 @@
+<template name="dashboard">
+
+	<div id="dashboard_bg_color">
+		<div style="position:absolute;visibility:hidden">
+	    	<video id="video_camera" autoplay loop style="position:relative;">
+				    	         
+			</video>
+	    </div>
+	</div>
+
+	<div id="dashboard_bg">
+
+	</div>
+	
+
+	
+
+	
+
+
+	<div class="dashboard_stats_frame">
+		<div id="dashboard_engagement">
+			<div>
+				<div>
+					<canvas id="myChart" width="280" height="200"></canvas>
+				</div>
+				<div class="centered_in_circle" style="height:13px;font-size:12px;top:10px;color:white;">
+					Engagement
+				</div>
+			</div>
+		</div>
+		
+	</div>
+
+	<div class="dashboard_stats_frame">
+		<div id="dashboard_gender_markers">
+			<div>
+				<div style="color:white; font-size:14px;">
+					Current Gender Exposure
+				</div>	
+				<div>
+					<span class="label_color_box" style="background-color:rgba(151,187,205,0.5);"></span>
+					<span class="label_tag_box">Male <span id="Male_exposure"></span> </span>
+				</div>
+				<div>
+					<span class="label_color_box" style="background-color:rgba(247,70,74,0.5);"></span>
+					<span class="label_tag_box">Female <span id="Female_exposure"></span> </span>
+				</div>	
+			</div>	
+		</div>
+	</div>
+
+	<div class="dashboard_stats_frame">
+		<div id="dashboard_gender">
+			<canvas id="genderChart" width="350" height="350"></canvas>
+		</div>
+	</div>
+
+
+	<div class="dashboard_stats_frame">
+		<div id="dashboard_age">
+			<canvas id="ageChart" width="350" height="350"></canvas>
+		</div>
+	</div>
+
+	<div id="faces" class="dashboard_faces_frame" style="color:white;">
+		
+		<div > Sacanning for faces ...</div>
+		
+	</div>
+
+	
+
+	<div id="dashboard_main_circle_frame">
+		<div id="dashboard_main_circle">
+			<div id="dashboard_circle_content">
+
+				<div id="dashboard_circle_content_top">
+					{{>dashboard_circle_content_top}}
+				</div>
+				<div id="dashboard_circle_content_bottom">
+					{{>dashboard_circle_content_bottom}}
+				</div>	
+
+			</div>
+		</div>
+	</div>
+
+	<div class="dashboard_stats_frame">
+		<div id="dashboard_numbers_box">
+			<div>
+				<div  style="top:0px;width:100%;left:0px;display:block;right:0px;color:white">
+					
+						<div class="dashboard_stats_box" style="">
+							<div id="current_viewers" class="top_stats_number">
+								-
+							</div>
+							<div class="top_stats_title">
+								Current Viewers
+							</div>	
+						</div>
+						
+				</div>	
+
+
+				<div  style="top:0px;width:100%;left:0px;display:block;right:0px;color:white">
+					
+						<div class="dashboard_stats_box" style="">
+							<div id="seconds_engaged" class="top_stats_number">
+								-
+							</div>
+							<div class="top_stats_title">
+								Seconds Engaged
+							</div>	
+						</div>
+						
+				</div>	
+			</div>
+		</div>
+	</div>
+
+	
+
+</template>	
+
+		
+<template name="face_template">
+		<div class="dashboard_faces" >
+			<div class="dashboard_face_image_frame">
+				<div class="dashboard_face_image">
+
+				</div>
+			</div>
+			<div class="dashboard_face_data ">
+				Sex: Male<br/>
+				Age: Adult
+			</div>	
+		</div>
+</template>
+
+<template name="right_data">
+	
+		<div style="top:0px;width:100%;left:0px;display:block;right:0px;height:225px">
+			
+		</div>
+		
+		
+		
+							
+	
+	
+
+</template>
+
+<template name="dashboard_circle_content_top">
+
+	<div class="centered_in_circle">
+		<img src="/images/logo.png" height="100px">
+	</div>
+</template>
+
+
+<template name="dashboard_circle_content_bottom">
+	<div class="centered_in_circle" style="padding:0px;margin:0px;font-size:30px">
+		Real Life Analytics
+
+	</div>
+	<div id="loading_message_in_circle" style="position:absolute">
+			Loading neurons ... <span id="neurons_ids"> 100</span>
+	</div>	
+	
+</template>
