@@ -3,14 +3,12 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
-standard-app-packages
-iron-router
+meteor-platform
 autopublish
 insecure
-bootstrap-3
+iron:router
 less
-parallax
-streams
-wait-on-lib
-canvas-image-manipulation
+underscore
+arunoda:streams
+manuelschoebel:wait-on-lib
 
