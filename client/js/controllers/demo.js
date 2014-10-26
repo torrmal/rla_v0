@@ -1,6 +1,5 @@
 Template.demo.rendered = function(){
     
-
     // initialize the head tracker
     var videoInput = $('#inputVideo')[0];
     var Inputcanvas = $('#inputCanvas')[0];
