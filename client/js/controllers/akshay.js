@@ -13,11 +13,13 @@ Akshay = {
   	var canvas = document.getElementById("out"); // get the element
 	var canvasWidth    = image.width();
 	var canvasHeight   = image.height();
-
+	canvas.width = canvasWidth;
+	canvas.height = canvasHeight;
+	canvasContext.drawImage(image[0], 0, 0);
 	var canvasContext  = canvas.getContext("2d");
 	var imageData      = canvasContext.getImageData(0, 0, canvasWidth, canvasHeight);
-	canvasContext.drawImage(image[0], 0, 0);
 	
+	return;
 	var WL = canvasWidth*4;
 		var WL2 = canvasWidth*4-8;
 		var HL = canvasHeight*4-1; 
@@ -31,9 +33,11 @@ Akshay = {
         //var apix = imageData.data[pix];
        
         pix -= 4;
-        imageData.data[pix] = 0;//(imageData.data[pix] - imageData.data[pix-WL2]);// << 1;
-        imageData.data[pix2] = 0;//(imageData.data[pix2] - imageData.data[pix2-WL2]);// <<1 ;
-        imageData.data[pix1] = 0;//(imageData.data[pix1] - imageData.data[pix1-WL2]);//  << 1;
+        pix2 = pix +1;
+        pix1 = pix +2;
+        imageData.data[pix] = (imageData.data[pix] - imageData.data[pix-WL2]);// << 1;
+        imageData.data[pix2] = (imageData.data[pix2] - imageData.data[pix2-WL2]);// <<1 ;
+        imageData.data[pix1] = (imageData.data[pix1] - imageData.data[pix1-WL2]);//  << 1;
 
       
     }
