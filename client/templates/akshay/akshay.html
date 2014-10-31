@@ -1,6 +1,13 @@
-<template name="akshay">
+<head>
+	<title>Face Tagger</title>
+	<style type="text/css" media="screen">
+    	canvas { background:url(http://www.fmwconcepts.com/misc_tests/spraypaint/lena.jpg) }
+  	</style>
+</head>
 
-	<h1 id="button">"Hello"</h1>
-	<img id="akshay" src="/images/male.jpg" />
-	<canvas id="out" width="100" height="100"> </canvas>
+<template name='akshay'>
+	<h3>Face Tagger</h3>
+  	<canvas id="canvasID" width=256 height=256></canvas>
+   	<p><span id="rectco"></span></p>
+  	<button id='tagID'>Tag Face</button>
 </template>
