@@ -1,12 +1,26 @@
 Template.akshay.rendered = function(){
-    
+
     var canvas = document.getElementById('canvasID'),
         ctx = canvas.getContext('2d'),
         rect = {},
         drag = false,
         rectDisplay = "";
-    
+
+    //canvas.width = 640;
+    //canvas.height = 480;
+
+    var background = new Image();
+
     function init() {
+      
+      //background.src = "http://www.fmwconcepts.com/misc_tests/spraypaint/lena.jpg";
+      background.src = "http://upload.wikimedia.org/wikipedia/en/2/24/Lenna.png";
+      //background.src = "./home/rla/RLA/rla_v0/public/images/lena.jpg";
+      background.onload = function(){
+          ctx.drawImage(background,0,0);
+                        //canvas.width / 2 - background.width / 2,
+                        //canvas.height / 2 - background.height / 2);   
+      }
       canvas.addEventListener('mousedown', mouseDown, false);
       canvas.addEventListener('mouseup', mouseUp, false);
       canvas.addEventListener('mousemove', mouseMove, false);
@@ -33,29 +47,40 @@ Template.akshay.rendered = function(){
 
     function draw() {
       ctx.lineWidth   = 2;
-        ctx.lineJoin    = 'round';
+      ctx.lineJoin    = 'round';
       ctx.strokeStyle = "#00FF00";
-        ctx.strokeRect(rect.startX, rect.startY, rect.w, rect.h);
+      ctx.drawImage(background,0,0);
+                    //canvas.width / 2 - background.width / 2,
+                    //canvas.height / 2 - background.height / 2);
+      ctx.strokeRect(rect.startX, rect.startY, rect.w, rect.h);
 
-        var rectDisplay = "Rect : ";
-        if (rect.w < 0)
-          rectDisplay += (rect.startX + rect.w).toString() + " , ";
-        else
-          rectDisplay += rect.startX.toString() + " , ";
+      var rectDisplay = "Rect : ";
+      if (rect.w < 0)
+        rectDisplay += (rect.startX + rect.w).toString() + " , ";
+      else
+        rectDisplay += rect.startX.toString() + " , ";
 
-        if (rect.h < 0)
-          rectDisplay += (rect.startY + rect.h).toString() + " , ";
-        else 
-          rectDisplay += rect.startY.toString() + " , ";
+      if (rect.h < 0)
+        rectDisplay += (rect.startY + rect.h).toString() + " , ";
+      else 
+        rectDisplay += rect.startY.toString() + " , ";
 
-        rectDisplay += Math.abs(rect.w).toString() + " , ";
-        rectDisplay += Math.abs(rect.h).toString();
+      rectDisplay += Math.abs(rect.w).toString() + " , ";
+      rectDisplay += Math.abs(rect.h).toString();
 
       document.getElementById("rectco").innerHTML = rectDisplay;
     }
 
     $('#tagID').click( function(){
       console.log(rectDisplay);
+      console.log($('input[name=sex]:checked', '#tagOut').val());
+      console.log($('input[name=facehair]:checked', '#tagOut').val());
+      console.log($('input[name=glasses]:checked', '#tagOut').val());
+      console.log($('input[name=hairtype]:checked', '#tagOut').val());
+      console.log($('input[name=hairstyle]:checked', '#tagOut').val());
+      console.log($('input[name=makeup]:checked', '#tagOut').val());
+      console.log($('input[name=skincolor]:checked', '#tagOut').val());
+      console.log($('input[name=hat]:checked', '#tagOut').val());
     });
 
     init();

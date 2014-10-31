@@ -1,13 +1,54 @@
 <head>
 	<title>Face Tagger</title>
+	<!--
 	<style type="text/css" media="screen">
     	canvas { background:url(http://www.fmwconcepts.com/misc_tests/spraypaint/lena.jpg) }
   	</style>
+  	-->
 </head>
 
 <template name='akshay'>
 	<h3>Face Tagger</h3>
-  	<canvas id="canvasID" width=256 height=256></canvas>
+	<div style="overflow: auto;">
+  		<canvas id="canvasID" width=640 height=480></canvas>
+  	</div>
    	<p><span id="rectco"></span></p>
   	<button id='tagID'>Tag Face</button>
+  	<div style="border : solid 2px #FFFFFF; background : #FFFFFF; color : #000000; padding : 10px; width : 300px; height : 500px; position: fixed; top: 50px; left: 650px; overflow : auto;">
+		{{> tagForm}}
+	</div>
+</template>
+
+<template name="tagForm">
+	<form id="tagOut">
+		<p>Gender</p>
+		<input type="radio" name="sex" value="male">Male
+		<input type="radio" name="sex" value="female">Female
+		<p>Facial Hair</p>
+		<input type="radio" name="facehair" value="yes">Yes
+		<input type="radio" name="facehair" value="no">No
+		<p>Glasses</p>
+		<input type="radio" name="glasses" value="yes">Yes
+		<input type="radio" name="glasses" value="no">No
+		<p>Hair Type</p>
+		<input type="radio" name="hairtype" value="blonde">Blonde
+		<input type="radio" name="hairtype" value="red">Red
+		<input type="radio" name="hairtype" value="black">Black
+		<input type="radio" name="hairtype" value="gray">Gray
+		<p>Hair Style</p>
+		<input type="radio" name="hairstyle" value="long">Long
+		<input type="radio" name="hairstyle" value="short">Short
+		<input type="radio" name="hairstyle" value="bold">Bold
+		<p>Make Up</p>
+		<input type="radio" name="makeup" value="yes">Yes
+		<input type="radio" name="makeup" value="no">No
+		<p>Skin Color</p>
+		<input type="radio" name="skincolor" value="light">Light
+		<input type="radio" name="skincolor" value="olive">Olive
+		<input type="radio" name="skincolor" value="tan">Tan
+		<input type="radio" name="skincolor" value="dark">Dark
+		<p>Hat</p>
+		<input type="radio" name="hat" value="yes">Yes
+		<input type="radio" name="hat" value="no">No
+	</form>
 </template>
