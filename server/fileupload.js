@@ -5,9 +5,13 @@ Meteor.methods({
     name = cleanName(name || 'file'), encoding = encoding || 'binary',
     chroot =  process.env['PWD'] +'/public/training_images~';
     
-    var unzip = Npm.require('unzip');
-    //var DecompressZip = Npm.require('decompress-zip');
-    
+    //var unzip = Npm.require('unzip');
+    var DecompressZip = Npm.require('decompress-zip');
+    var Fiber = Npm.require('fibers');
+
+    // code to run on server at startup
+    var metaDataImage = new Meteor.Collection("Image_Meta_Data");
+
     //chroot =  Npm.require('fs').realpathSync( process.cwd() + '/../' ) +'/public'; 
     // Clean up the path. Remove any initial and final '/' -we prefix them-,
     // any sort of attempt to go to the parent directory '..' and any empty directories in
@@ -27,72 +31,64 @@ Meteor.methods({
 
     if( ext == 'zip' )
     {
-       fs.renameSync(chroot + "/" + name,chroot + "/tmp/" + name);/*,function(err) {
-          if (err) {
-            throw (new Meteor.Error(500, 'Failed to move file.', err));
-          } else {
-            console.log('The file ' + name + ' was moved to' + chroot + '/tmp' );
-          }
-        });*/
+       fs.renameSync(chroot + "/" + name,chroot + "/tmp/" + name);
 
       // Make it unzip files with image extensions
+    /*if (false) {
       fs.createReadStream(chroot + "/tmp/" + name)
         .pipe( unzip.Extract({ path: chroot + '/extract' }) );
-
-      var files = getAllFilesFromFolder(chroot + "/extract");
-        console.log(files);
-    /*      
+    }
+    else {*/ 
       var unzipper = new DecompressZip(chroot + "/tmp/" + name);
      
       unzipper.on('error', function (err) {
+          console.log("Err Err");
           console.log(err);
       });
 
       unzipper.on('extract', function (log) {
           console.log('Finished extracting');
+          unzipper.list();
       });
 
-      unzipper.extract({ 
-          path: chroot,
-          filter: function (file) {
-              var ext = file.split('.').pop();
-              return ext == 'jpg';
+      unzipper.on('list', function (files) {
+        console.log('The archive contains:');
+        console.log(files);
+        
+        // Move the extracted files that match the image extension
+        // Delete the files from extract folder that do not match the image extension
+        files.forEach(function(file) {
+          var ext = file.split('.').pop();
+          if( ext === 'jpg' || ext === 'png' || ext === 'bmp')
+          {
+            fs.renameSync(chroot + "/extract/" + file,chroot + "/" + file);
+            /* [Error: Meteor code must always run within a Fiber. 
+                Try wrapping callbacks that you pass to non-Meteor 
+                libraries with Meteor.bindEnvironment.]*/
+            new Fiber( function() {
+              metaDataImage.insert({
+                'path' : chroot,
+                'name' : file,
+                'tagged' : false
+              });
+            }).run();
           }
+          else
+          {
+            fs.unlink(chroot + "/extract/" + file);
+          }
+        });
+
+        // Delete the downloaded zip file
+        fs.unlink(chroot + "/tmp/" + name);
+
       });
-    */
-    /*
-      fs.unlink(chroot + "/tmp/" + name);/*, function (err) {
-        if (err) {
-          throw (new Meteor.Error(500, 'Failed to remomove file.', err));
-        } else {
-          console.log('The file ' + name + ' was deleted from' + chroot + '/tmp' );
-        }
+
+      unzipper.extract({
+        path: chroot + '/extract'
       });
-    */
-
-      // code to run on server at startup
-      metaDataImage = new Meteor.Collection("Image_Meta_Data");
-      
-      // Add to collection
-      console.log(files.length);
-      for (var i = 0; i < files.length; i++) {
-
-        var ext = files[i].split('.').pop();
-        console.log(ext);
-        if( ext === 'jpg' || ext === 'png' || ext === 'bmp')
-        {
-          metaDataImage.insert({
-            'path' : chroot,
-            'name' : files[i],
-            'tagged' : false,
-          });
-
-          fs.renameSync(chroot + "/extract/" + files[i],chroot + "/" + files[i]);
-        }
-      }
-
-      console.log("Total Entries in meta : " + metaDataImage.find({}).count());
-
+    //}
+        
     }// end of zip if
 
     function cleanPath(str) {
@@ -103,22 +99,6 @@ Meteor.methods({
     }
     function cleanName(str) {
       return str.replace(/\.\./g,'').replace(/\//g,'');
-    }
-    function getAllFilesFromFolder(dir) {
-        var results = [];
-
-        fs.readdirSync(dir).forEach(function(file) {
-
-            pathfile = dir+'/'+file;
-            var stat = fs.statSync(pathfile);
-
-            if (stat && stat.isDirectory()) {
-                //results = results.concat(_getAllFilesFromFolder(pathfile))
-            } else results.push(file);
-
-        });
-
-        return results;
     }
   }
 });
