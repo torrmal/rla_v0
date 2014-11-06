@@ -1,44 +1,26 @@
 Meteor.methods({
+  
   saveFile: function(blob, name, path, encoding) {
     
-    var path = cleanPath(path), fs = Npm.require('fs'),
+    var path = cleanPath(path), 
     name = cleanName(name || 'file'), encoding = encoding || 'binary',
     chroot =  process.env['PWD'] +'/public/training_images~';
     
-    //var unzip = Npm.require('unzip');
-    var DecompressZip = Npm.require('decompress-zip');
-    var Fiber = Npm.require('fibers');
-
-    // code to run on server at startup
-    var metaDataImage = new Meteor.Collection("Image_Meta_Data");
-
     //chroot =  Npm.require('fs').realpathSync( process.cwd() + '/../' ) +'/public'; 
     // Clean up the path. Remove any initial and final '/' -we prefix them-,
     // any sort of attempt to go to the parent directory '..' and any empty directories in
     // between '/////' - which may happen after removing '..'
     path = chroot + (path ? '/' + path + '/' : '/');   
 
-    // TODO Add file existance checks, etc...
-    fs.writeFileSync(path + name, blob, encoding);/*, function(err) {
-      if (err) {
-        throw (new Meteor.Error(500, 'Failed to save file.', err));
-      } else {
-        console.log('The file ' + name + ' (' + encoding + ') was saved to ' + path);
-      }
-    }); */
- 
+    // Save the uploaded file 
+    fs.writeFileSync(path + "/" + downloadDir + "/" + name, blob, encoding);
+  
+    // Extract the extension
     var ext = name.split('.').pop();
 
     if( ext == 'zip' )
     {
-       fs.renameSync(chroot + "/" + name,chroot + "/tmp/" + name);
-
       // Make it unzip files with image extensions
-    /*if (false) {
-      fs.createReadStream(chroot + "/tmp/" + name)
-        .pipe( unzip.Extract({ path: chroot + '/extract' }) );
-    }
-    else {*/ 
       var unzipper = new DecompressZip(chroot + "/tmp/" + name);
      
       unzipper.on('error', function (err) {
@@ -52,44 +34,86 @@ Meteor.methods({
       });
 
       unzipper.on('list', function (files) {
+
         console.log('The archive contains:');
         console.log(files);
         
         // Move the extracted files that match the image extension
         // Delete the files from extract folder that do not match the image extension
         files.forEach(function(file) {
-          var ext = file.split('.').pop();
+
+          ext = file.split('.').pop();
+          // Accepted image extensions
           if( ext === 'jpg' || ext === 'png' || ext === 'bmp')
           {
-            fs.renameSync(chroot + "/extract/" + file,chroot + "/" + file);
-            /* [Error: Meteor code must always run within a Fiber. 
-                Try wrapping callbacks that you pass to non-Meteor 
-                libraries with Meteor.bindEnvironment.]*/
+            /*insertImageToDb(chroot,extractDir,file,ext);*/
+
+            var md5_filename = MD5( fs.readFileSync( chroot + "/" + extractDir + "/" + file ) );
+
+            fs.renameSync(chroot + "/" + extractDir + "/" + file,
+                          chroot + "/" + untaggedDir + "/" + md5_filename + "." + ext);
+
+            // create the new image entry
+            var newImage = {
+                _id: md5_filename,
+                path: chroot,
+                name: md5_filename + "." + ext,
+                orgname: file,
+                tagged: false
+            };
+
             new Fiber( function() {
-              metaDataImage.insert({
-                'path' : chroot,
-                'name' : file,
-                'tagged' : false
-              });
+              metaDataImage.insert(newImage);
             }).run();
-          }
-          else
-          {
-            fs.unlink(chroot + "/extract/" + file);
+
           }
         });
 
         // Delete the downloaded zip file
-        fs.unlink(chroot + "/tmp/" + name);
+        fs.unlink(chroot + "/" + downloadDir + "/" + name);
 
       });
 
       unzipper.extract({
         path: chroot + '/extract'
       });
-    //}
-        
+
     }// end of zip if
+    else
+    {
+
+      // Accepted image extensions
+      if( ext === 'jpg' || ext === 'png' || ext === 'bmp')
+      {
+        /*insertImageToDb(chroot,extractDir,file,ext);*/
+
+        file = name;
+
+        var md5_filename = MD5( fs.readFileSync( chroot + "/" + downloadDir + "/" + file ) );
+
+        fs.renameSync(chroot + "/" + downloadDir + "/" + file,
+                      chroot + "/" + untaggedDir + "/" + md5_filename + "." + ext);
+
+        // create the new image entry
+        var newImage = {
+            _id: md5_filename,
+            path: chroot,
+            name: md5_filename + "." + ext,
+            orgname: file,
+            tagged: false
+        };
+
+        new Fiber( function() {
+          metaDataImage.insert(newImage);
+        }).run();
+      }
+      else
+      {
+        console.log('Error : Compression extension not supported yet');
+        console.log('Error : Image extension not supported yet');
+      }
+
+    }
 
     function cleanPath(str) {
       if (str) {
@@ -97,8 +121,75 @@ Meteor.methods({
           replace(/^\/+/,'').replace(/\/+$/,'');
       }
     }
+
     function cleanName(str) {
       return str.replace(/\.\./g,'').replace(/\//g,'');
     }
+
+    /*
+    function insertImageToDb(chroot,folder,filename,extension) {
+
+      var md5_filename = MD5( fs.readFileSync( chroot + '/' + folder + '/' + filename ) );
+
+      fs.renameSync(chroot + '/' + folder + '/' + filename,
+                    chroot + '/' + untaggedDir + '/' + md5_filename + "." + extension);
+
+      // create the new image entry
+      var newImage = {
+          //_id: md5_filename,
+          path: chroot, // Whether in tagged or untagged folder is determined by the 'tagged' prop state
+          name: md5_filename + "." + ext,
+          orgname: file,
+          tagged: false
+      };
+
+      new Fiber( function() {
+        metaDataImage.insert(newImage);
+      }).run();
+    }*/
   }
+
 });
+
+if (Meteor.isServer) {
+  console.log("Hello Server!");
+
+  // Declare server Movies collection
+  metaDataImage = new Meteor.Collection("Image_Meta_Data");
+   
+  // Seed the movie database with a few movies
+  Meteor.startup(function () {
+    
+    console.log( metaDataImage.find().count() );
+
+    DecompressZip = Npm.require('decompress-zip');
+    Fiber = Npm.require('fibers');
+    fs = Npm.require('fs');
+    MD5 = Npm.require('MD5');
+
+    downloadDir = "tmp";
+    extractDir = "extract";
+    untaggedDir = "untagged";
+
+  });
+
+  // Server
+  Meteor.publish('untagged', function publishFunction() {
+   return metaDataImage.find({}, {sort: {tagged: false}, limit: 10});
+  });
+
+}
+
+  getCollection=function(collectionName){
+    if(collectionName=="users"){
+      return Meteor.users;
+    }
+    var globalScope=Meteor.isClient?window:global;
+    for(var property in globalScope){
+      var object=globalScope[property];
+      if(object instanceof Meteor.Collection && object._name==collectionName){
+        return object;
+      }
+    }
+    throw Meteor.Error(500,"No collection named "+collectionName);
+  };
