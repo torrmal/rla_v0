@@ -5,20 +5,25 @@ Template.akshay.rendered = function(){
       rect = {},
       drag = false;
 
+  taggedFace = {};
+  taggedFaces = [];
+
   var background = new Image();
 
-  metaDataImage = new Meteor.Collection("Image_Meta_Data");
+  //metaDataImage = new Meteor.Collection("Image_Meta_Data");
 
-  console.log( metaDataImage.find().count() );
-
+  //console.log( metaDataImage.find().count() );
+/*
   Template.fileupload.Image_Meta_Data = function () {
       return metaDataImage.find();
   };
+*/
+  //Meteor.subscribe("untagged");
 
-  Meteor.subscribe("untagged");
-
-  function init(filename) {
+  function init() {
     
+    //console.log( metaDataImage.find().count() );
+
     /*var imageLog = metaDataImage.findOne({
         tagged : false
     });
@@ -28,7 +33,7 @@ Template.akshay.rendered = function(){
     //background.src = "http://upload.wikimedia.org/wikipedia/en/2/24/Lenna.png";
     //background.src = "/images/widthlong.jpg";
     //background.src = "/images/heightlong.jpg";
-    background.src = "/images/doubleWH.jpg";
+    background.src = "/training_images~/untagged/213a13bdf757144d2e0a8057be0426cc.png";
 
     scale = 1;
     displayWidth = 0;
@@ -81,68 +86,107 @@ Template.akshay.rendered = function(){
   function draw() {
     ctx.lineWidth   = 2;
     ctx.lineJoin    = 'round';
-    ctx.strokeStyle = "#00FF00";
     ctx.drawImage(background,0,0,displayWidth,displayHeight);
-                  //canvas.width / 2 - background.width / 2,
-                  //canvas.height / 2 - background.height / 2);
-    ctx.strokeRect(rect.startX, rect.startY, rect.w, rect.h);
+
+    ctx.strokeStyle = "#FF0000";
+    for(f = 0; f < taggedFaces.length; f++)
+    {
+      ctx.strokeRect(taggedFaces[f].X, taggedFaces[f].Y, 
+                     taggedFaces[f].W, taggedFaces[f].H);
+    }
+
+    if( rect.w != 0 && rect.h != 0 )
+    {
+      ctx.strokeStyle = "#00FF00";
+      ctx.strokeRect(rect.startX, rect.startY, rect.w, rect.h);
+    }
 
     rectDisplay = "";
     if (rect.w < 0)
-      rectDisplay += Math.round((rect.startX + rect.w)/scale).toString() + " , ";
+      taggedFace.X = Math.round((rect.startX + rect.w)/scale);
     else
-      rectDisplay += Math.round(rect.startX/scale).toString() + " , ";
+      taggedFace.X = Math.round(rect.startX/scale);
 
     if (rect.h < 0)
-      rectDisplay += Math.round((rect.startY + rect.h)/scale).toString() + " , ";
+      taggedFace.Y = Math.round((rect.startY + rect.h)/scale);
     else 
-      rectDisplay += Math.round(rect.startY/scale).toString() + " , ";
+      taggedFace.Y = Math.round(rect.startY/scale);
 
-    rectDisplay += Math.round(Math.abs(rect.w/scale)).toString() + " , ";
-    rectDisplay += Math.round(Math.abs(rect.h/scale)).toString();
+    taggedFace.W = Math.round(Math.abs(rect.w/scale));
+    taggedFace.H = Math.round(Math.abs(rect.h/scale)); 
 
     document.getElementById("rectco").innerHTML = rectDisplay;
   }
 
   $('#tagID').click( function(e){
 
-    rectDisplay += " " +
-    $('input[name=sex]:checked', '#tagOut').val()       + " " +  
-    $('input[name=facehair]:checked', '#tagOut').val()  + " " + 
-    $('input[name=glasses]:checked', '#tagOut').val()   + " " + 
-    $('input[name=hairtype]:checked', '#tagOut').val()  + " " + 
-    $('input[name=hairstyle]:checked', '#tagOut').val() + " " + 
-    $('input[name=makeup]:checked', '#tagOut').val()    + " " + 
-    $('input[name=skincolor]:checked', '#tagOut').val() + " " + 
-    $('input[name=hat]:checked', '#tagOut').val()       + " " ;
+    rectDisplay = 
+    taggedFace.X.toString() + " " +
+    taggedFace.Y.toString() + " " +
+    taggedFace.W.toString() + " " +
+    taggedFace.H.toString() ;
 
-    var fs = Npm.require('fs');
-    encoding = encoding || 'binary';
-    fs.writeFileSync('/training_images~/message.txt', rectDisplay, encoding);
+    taggedFaces.push({
+      X:         taggedFace.X,
+      Y:         taggedFace.Y,
+      W:         taggedFace.W,
+      H:         taggedFace.H,
+      sex:       $('input[name=sex]:checked', '#tagOut').val(),
+      facehair:  $('input[name=facehair]:checked', '#tagOut').val(),
+      glasses:   $('input[name=glasses]:checked', '#tagOut').val(),
+      hairtype:  $('input[name=hairtype]:checked', '#tagOut').val(), 
+      hairstyle: $('input[name=hairstyle]:checked', '#tagOut').val(), 
+      makeup:    $('input[name=makeup]:checked', '#tagOut').val(),
+      skincolor: $('input[name=skincolor]:checked', '#tagOut').val(), 
+      hat:       $('input[name=hat]:checked', '#tagOut').val()
+    });
 
-    console.log( rectDisplay );
+    rect.startX = 0;
+    rect.startY = 0;
+    rect.w = 0;
+    rect.h = 0;
 
+    draw();
+
+    //console.log(taggedFaces);
+
+    //var fs = Npm.require('fs');
+    //encoding = encoding || 'binary';
+    //fs.writeFileSync('/training_images~/message.txt', rectDisplay, encoding);
+
+    //console.log( rectDisplay );
+
+  });
+
+
+  $('#imgID').click( function(e) {
+    // Update teh database with the tags
   });
 
   init();
 }
 
 if(Meteor.isClient) {
-/*
+  /*
   metaDataImage = new Meteor.Collection("Image_Meta_Data");
 
   // Bind moviesTemplate to Movies collection
   Template.akshay.Image_Meta_Data = function () {
       return metaDataImage.find();
   };
+  */ 
 
-  Meteor.subscribe("untagged");
+  miniImageMetaData = new Meteor.Collection('clientImageMetaData');
 
-  /*  
-    Meteor.startup(function () {
-        fs = Npm.require('fs');
-    });
-  */
+  Meteor.subscribe('Image_Meta_Data', false);
+
+  // client: use the new collection
+  //console.log("Current room has " + miniImageMetaData.find().count() + " messages.");
+  
+  Meteor.startup(function () {
+    console.log( 'tagger client : ' + miniImageMetaData.find().count() );
+  });
+
 }
 
 Akshay = {

@@ -9,14 +9,27 @@
 
 <template name='akshay'>
 	<h3>Face Tagger</h3>
+	<div style="position: fixed; top: 30px; left: 450px;">
+		{{> tagFace}}
+	</div>
+	<div style="position: fixed; top: 30px; left: 550px;">
+		{{> tagDone}}
+	</div>
 	<div style="overflow: auto;">
   		<canvas id="canvasID" width=640 height=480></canvas>
   	</div>
    	<p><span id="rectco"></span></p>
-  	<button id='tagID'>Tag Face</button>
   	<div style="border : solid 2px #FFFFFF; background : #FFFFFF; color : #000000; padding : 10px; width : 300px; height : 500px; position: fixed; top: 50px; left: 650px; overflow : auto;">
 		{{> tagForm}}
 	</div>
+</template>
+
+<template name="tagFace">
+	<button id='tagID'>Tag Face</button>
+</template>
+
+<template name="tagDone">
+	<button id='imgID'>Done</button>
 </template>
 
 <template name="tagForm">

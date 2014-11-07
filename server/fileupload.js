@@ -154,13 +154,13 @@ Meteor.methods({
 if (Meteor.isServer) {
   console.log("Hello Server!");
 
-  // Declare server Movies collection
-  metaDataImage = new Meteor.Collection("Image_Meta_Data");
+  // Declare server image collection
+  //metaDataImage = new Meteor.Collection("Image_Meta_Data");
    
   // Seed the movie database with a few movies
   Meteor.startup(function () {
     
-    console.log( metaDataImage.find().count() );
+    console.log( 'fileupload server : ' + metaDataImage.find().count() );
 
     DecompressZip = Npm.require('decompress-zip');
     Fiber = Npm.require('fibers');
@@ -173,23 +173,31 @@ if (Meteor.isServer) {
 
   });
 
-  // Server
-  Meteor.publish('untagged', function publishFunction() {
-   return metaDataImage.find({}, {sort: {tagged: false}, limit: 10});
-  });
+  Meteor.publish('Image_Meta_Data', function(subsargs) {
+    //subsargs are args passed in the next section
+    return metaDataImage.find({tagged: subsargs});
+    //or 
+    //return posts.find({}, {time:-1, limit: 5}) //etc
+   });
+
+  //// Server
+  //Meteor.publish('untagged', function publishFunction() {
+  // return metaDataImage.find({}, {sort: {tagged: false}, limit: 10});
+  //});
 
 }
-
-  getCollection=function(collectionName){
-    if(collectionName=="users"){
-      return Meteor.users;
+/*
+getCollection = function(collectionName){
+  if(collectionName=="users"){
+    return Meteor.users;
+  }
+  var globalScope=Meteor.isClient?window:global;
+  for(var property in globalScope){
+    var object=globalScope[property];
+    if(object instanceof Meteor.Collection && object._name==collectionName){
+      return object;
     }
-    var globalScope=Meteor.isClient?window:global;
-    for(var property in globalScope){
-      var object=globalScope[property];
-      if(object instanceof Meteor.Collection && object._name==collectionName){
-        return object;
-      }
-    }
-    throw Meteor.Error(500,"No collection named "+collectionName);
-  };
+  }
+  throw Meteor.Error(500,"No collection named "+collectionName);
+};
+*/
