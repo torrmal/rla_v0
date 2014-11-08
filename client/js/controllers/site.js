@@ -7,7 +7,6 @@ Router.map( function () {
     // get parameter via this.params
     path: '/'
   });
-  this.route('demo');
   this.route('demo2');
   //this.route('device');
   this.route('monitor');
