@@ -10,11 +10,19 @@ Template.akshay.rendered = function() {
 
     var background = new Image();
 
+    //console.log( metaDataImage.find().count() );
+
     function init() {
         //background.src = "http://www.fmwconcepts.com/misc_tests/spraypaint/lena.jpg";
         //background.src = "http://upload.wikimedia.org/wikipedia/en/2/24/Lenna.png";
         //background.src = "/images/widthlong.jpg";
         //background.src = "/images/heightlong.jpg";
+
+        //Meteor.subscribe('Image_Meta_Data');
+        //var myDocument = metaDataImage.find().count;
+        console.log( metaDataImage.find().count() );
+        console.log( metaDataImage.find().fetch() );
+
         background.src = "/training_images~/untagged/213a13bdf757144d2e0a8057be0426cc.png";
 
         scale = 1;
@@ -130,7 +138,7 @@ Template.akshay.rendered = function() {
 
     $('#doneID').click(function(e) {
         console.log('tagged');
-        metaDataImage.insert(taggedFaces);
+        //metaDataImage.insert(taggedFaces);
         // Update teh database with the tags
     });
 

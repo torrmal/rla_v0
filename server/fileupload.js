@@ -1,20 +1,20 @@
 Meteor.methods({
-  
+
   saveFile: function(blob, name, path, encoding) {
-    
-    var path = cleanPath(path), 
+
+    var path = cleanPath(path),
     name = cleanName(name || 'file'), encoding = encoding || 'binary',
     chroot =  process.env['PWD'] +'/public/training_images~';
-    
-    //chroot =  Npm.require('fs').realpathSync( process.cwd() + '/../' ) +'/public'; 
+
+    //chroot =  Npm.require('fs').realpathSync( process.cwd() + '/../' ) +'/public';
     // Clean up the path. Remove any initial and final '/' -we prefix them-,
     // any sort of attempt to go to the parent directory '..' and any empty directories in
     // between '/////' - which may happen after removing '..'
-    path = chroot + (path ? '/' + path + '/' : '/');   
+    path = chroot + (path ? '/' + path + '/' : '/');
 
-    // Save the uploaded file 
+    // Save the uploaded file
     fs.writeFileSync(path + "/" + downloadDir + "/" + name, blob, encoding);
-  
+
     // Extract the extension
     var ext = name.split('.').pop();
 
@@ -22,7 +22,7 @@ Meteor.methods({
     {
       // Make it unzip files with image extensions
       var unzipper = new DecompressZip(chroot + "/tmp/" + name);
-     
+
       unzipper.on('error', function (err) {
           console.log("Err Err");
           console.log(err);
@@ -37,7 +37,7 @@ Meteor.methods({
 
         console.log('The archive contains:');
         console.log(files);
-        
+
         // Move the extracted files that match the image extension
         // Delete the files from extract folder that do not match the image extension
         files.forEach(function(file) {
@@ -156,10 +156,10 @@ if (Meteor.isServer) {
 
   // Declare server image collection
   //metaDataImage = new Meteor.Collection("Image_Meta_Data");
-   
+
   // Seed the movie database with a few movies
   Meteor.startup(function () {
-    
+
     console.log( 'fileupload server : ' + metaDataImage.find().count() );
 
     DecompressZip = Npm.require('decompress-zip');
@@ -173,13 +173,14 @@ if (Meteor.isServer) {
 
   });
 
+  /*
   Meteor.publish('Image_Meta_Data', function(subsargs) {
     //subsargs are args passed in the next section
     return metaDataImage.find({tagged: subsargs});
-    //or 
+    //or
     //return posts.find({}, {time:-1, limit: 5}) //etc
    });
-
+  */
   //// Server
   //Meteor.publish('untagged', function publishFunction() {
   // return metaDataImage.find({}, {sort: {tagged: false}, limit: 10});
