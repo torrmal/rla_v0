@@ -10,20 +10,15 @@ Template.akshay.rendered = function() {
 
     var background = new Image();
 
-    //console.log( metaDataImage.find().count() );
-
-    function init() {
+    function init(imgname) {
         //background.src = "http://www.fmwconcepts.com/misc_tests/spraypaint/lena.jpg";
         //background.src = "http://upload.wikimedia.org/wikipedia/en/2/24/Lenna.png";
         //background.src = "/images/widthlong.jpg";
         //background.src = "/images/heightlong.jpg";
 
-        //Meteor.subscribe('Image_Meta_Data');
-        //var myDocument = metaDataImage.find().count;
-        console.log( metaDataImage.find().count() );
-        console.log( metaDataImage.find().fetch() );
-
-        background.src = "/training_images~/untagged/213a13bdf757144d2e0a8057be0426cc.png";
+        //background.src = "/training_images~/untagged/213a13bdf757144d2e0a8057be0426cc.png";
+        background.src = "/training_images~/untagged/" + imgname.toString();
+        console.log(background.src);
 
         scale = 1;
         displayWidth = 0;
@@ -76,9 +71,12 @@ Template.akshay.rendered = function() {
         ctx.drawImage(background, 0, 0, displayWidth, displayHeight);
 
         ctx.strokeStyle = "#FF0000";
+        console.log( taggedFaces.length );
         for (f = 0; f < taggedFaces.length; f++) {
-            ctx.strokeRect(taggedFaces[f].X, taggedFaces[f].Y,
-                taggedFaces[f].W, taggedFaces[f].H);
+            ctx.strokeRect( Math.round( taggedFaces[f].X * scale) ,
+                            Math.round( taggedFaces[f].Y * scale) ,
+                            Math.round( taggedFaces[f].W * scale) ,
+                            Math.round( taggedFaces[f].H * scale) );
         }
 
         if (rect.w != 0 && rect.h != 0) {
@@ -103,6 +101,14 @@ Template.akshay.rendered = function() {
         document.getElementById("rectco").innerHTML = rectDisplay;
     }
 
+    $('#loadID').click(function(e) {
+
+      console.log('Loading Image ...');
+      console.log('Load Button : ' + metaDataImage.find().count() );
+      imgDoc = metaDataImage.findOne({tagged:false});
+      init(imgDoc.name)
+    });
+
     $('#tagID').click(function(e) {
 
         rectDisplay =
@@ -126,10 +132,16 @@ Template.akshay.rendered = function() {
             hat: $('input[name=hat]:checked', '#tagOut').val()
         });
 
+        console.log( taggedFaces );
+
+        // Clear rect
         rect.startX = 0;
         rect.startY = 0;
         rect.w = 0;
         rect.h = 0;
+
+        // Clear the form
+        document.getElementById("tagOut").reset();
 
         draw();
 
@@ -137,12 +149,28 @@ Template.akshay.rendered = function() {
 
 
     $('#doneID').click(function(e) {
-        console.log('tagged');
-        //metaDataImage.insert(taggedFaces);
-        // Update teh database with the tags
+
+        if(  confirm('Are you done tagging the image?') )
+        {
+          console.log('tagged');
+
+          metaDataImage.update({
+            _id: imgDoc._id
+          }, {
+            $set: {
+              tagged: true,
+              tags: taggedFaces
+            }
+          });
+
+          // Clear canvas
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          // Clear tagged faces
+          taggedFaces = [];
+        }
     });
 
-    init();
+    //init();
 }
 
 
