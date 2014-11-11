@@ -8,6 +8,11 @@ Template.akshay.rendered = function() {
     taggedFace = {};
     taggedFaces = [];
 
+    selected = false;
+    selectRect = {};
+
+    canvasActive = false;
+
     var background = new Image();
 
     function init(imgname) {
@@ -33,15 +38,44 @@ Template.akshay.rendered = function() {
             displayHeight = background.height * scale;
 
             ctx.drawImage(background, 0, 0, displayWidth, displayHeight);
-
+            canvasActive = true;
         }
 
         canvas.addEventListener('mousedown', mouseDown, false);
         canvas.addEventListener('mouseup', mouseUp, false);
         canvas.addEventListener('mousemove', mouseMove, false);
+        canvas.addEventListener('dblclick', dblclick, false);
+    }
+
+    $( document ).keydown(function() {
+      if( selected ) {
+
+        for (f = 0; f < taggedFaces.length; f++) {
+          if( selectRect.X == taggedFaces[f].X &&
+              selectRect.Y == taggedFaces[f].Y &&
+              selectRect.W == taggedFaces[f].W &&
+              selectRect.H == taggedFaces[f].H )
+          {
+            taggedFaces.splice(f,1);
+            resetSelect();
+            break;
+          }
+        }
+
+        draw();
+      }
+    });
+
+    function resetSelect() {
+        selected = false;
+        selectRect.X = 0;
+        selectRect.Y = 0;
+        selectRect.W = 0;
+        selectRect.H = 0;
     }
 
     function mouseDown(e) {
+        resetSelect();
         rect.startX = e.pageX - this.offsetLeft;
         rect.startY = e.pageY - this.offsetTop;
         drag = true;
@@ -52,7 +86,7 @@ Template.akshay.rendered = function() {
     }
 
     function mouseMove(e) {
-        if (drag) {
+        if (drag && canvasActive) {
             rect.w = (e.pageX - this.offsetLeft) - rect.startX;
             rect.h = (e.pageY - this.offsetTop) - rect.startY;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -60,23 +94,64 @@ Template.akshay.rendered = function() {
         }
     }
 
+    function dblclick(e) {
+        ptX = e.pageX - this.offsetLeft;
+        ptY = e.pageY - this.offsetTop;
+
+        for (f = 0; f < taggedFaces.length; f++) {
+            if( ptX >= (taggedFaces[f].X * scale) &&
+                ptX <= (taggedFaces[f].X * scale + taggedFaces[f].W * scale) &&
+                ptY >= (taggedFaces[f].Y * scale) &&
+                ptY <= (taggedFaces[f].Y * scale + taggedFaces[f].H * scale) )
+            {
+                drawRect(ctx,"#FF0000", taggedFaces[f].X * scale,
+                                        taggedFaces[f].Y * scale,
+                                        taggedFaces[f].W * scale,
+                                        taggedFaces[f].H * scale);
+                drawSelect(ctx,"#FF0000", taggedFaces[f].X * scale,
+                                          taggedFaces[f].Y * scale,
+                                          taggedFaces[f].W * scale,
+                                          taggedFaces[f].H * scale, 8);
+                selected = true;
+                selectRect.X = taggedFaces[f].X;
+                selectRect.Y = taggedFaces[f].Y;
+                selectRect.W = taggedFaces[f].W;
+                selectRect.H = taggedFaces[f].H;
+                break;
+            }
+        }
+    }
+
+    function drawRect(ctx,colorStr,X,Y,W,H) {
+        ctx.strokeStyle = colorStr;
+        ctx.strokeRect( Math.round( X ) ,
+                        Math.round( Y ) ,
+                        Math.round( W ) ,
+                        Math.round( H ) );
+    }
+
+    function drawSelect(ctx,colorStr,X,Y,W,H,B) {
+        ctx.fillStyle = colorStr;
+        ctx.fillRect( X,         Y,         B, B);
+        ctx.fillRect( X + W - B, Y,         B, B);
+        ctx.fillRect( X,         Y + H - B, B, B);
+        ctx.fillRect( X + W - B, Y + H - B, B, B);
+    }
+
     function draw() {
         ctx.lineWidth = 2;
         ctx.lineJoin = 'round';
         ctx.drawImage(background, 0, 0, displayWidth, displayHeight);
 
-        ctx.strokeStyle = "#FF0000";
-        console.log( taggedFaces.length );
         for (f = 0; f < taggedFaces.length; f++) {
-            ctx.strokeRect( Math.round( taggedFaces[f].X * scale) ,
-                            Math.round( taggedFaces[f].Y * scale) ,
-                            Math.round( taggedFaces[f].W * scale) ,
-                            Math.round( taggedFaces[f].H * scale) );
+            drawRect(ctx,"#FF0000", taggedFaces[f].X * scale,
+                                    taggedFaces[f].Y * scale,
+                                    taggedFaces[f].W * scale,
+                                    taggedFaces[f].H * scale);
         }
 
         if (rect.w != 0 && rect.h != 0) {
-            ctx.strokeStyle = "#00FF00";
-            ctx.strokeRect(rect.startX, rect.startY, rect.w, rect.h);
+            drawRect(ctx,"#00FF00", rect.startX, rect.startY, rect.w, rect.h);
         }
 
         rectDisplay = "";
@@ -142,8 +217,6 @@ Template.akshay.rendered = function() {
             hat: $('input[name=hat]:checked', '#tagOut').val()
         });
 
-        console.log( taggedFaces );
-
         resetTags();
 
         draw();
@@ -168,8 +241,11 @@ Template.akshay.rendered = function() {
 
           // Clear canvas
           ctx.clearRect(0, 0, canvas.width, canvas.height);
+          canvasActive = false;
           // Clear tagged faces
           taggedFaces = [];
+          // Clear background image
+          background.src = "";
         }
     });
 

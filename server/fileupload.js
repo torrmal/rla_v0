@@ -48,7 +48,7 @@ Meteor.methods({
           // Accepted image extensions
           if( ext === 'jpg' || ext === 'png' || ext === 'bmp')
           {
-            /*insertImageToDb(chroot,extractDir,file,ext);*/
+            /*new Fiber( insertImageToDb(chroot,extractDir,file,ext) ).run();*/
 
             var md5_filename = MD5( fs.readFileSync( chroot + "/" + extractDir + "/" + file ) );
 
