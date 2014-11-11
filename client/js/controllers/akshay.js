@@ -11,14 +11,9 @@ Template.akshay.rendered = function() {
     var background = new Image();
 
     function init(imgname) {
-        //background.src = "http://www.fmwconcepts.com/misc_tests/spraypaint/lena.jpg";
-        //background.src = "http://upload.wikimedia.org/wikipedia/en/2/24/Lenna.png";
-        //background.src = "/images/widthlong.jpg";
-        //background.src = "/images/heightlong.jpg";
 
-        //background.src = "/training_images~/untagged/213a13bdf757144d2e0a8057be0426cc.png";
         background.src = "/training_images~/untagged/" + imgname.toString();
-        console.log(background.src);
+        //console.log(background.src);
 
         scale = 1;
         displayWidth = 0;
@@ -38,9 +33,9 @@ Template.akshay.rendered = function() {
             displayHeight = background.height * scale;
 
             ctx.drawImage(background, 0, 0, displayWidth, displayHeight);
-            //canvas.width / 2 - background.width / 2,
-            //canvas.height / 2 - background.height / 2);
+
         }
+
         canvas.addEventListener('mousedown', mouseDown, false);
         canvas.addEventListener('mouseup', mouseUp, false);
         canvas.addEventListener('mousemove', mouseMove, false);
@@ -101,12 +96,26 @@ Template.akshay.rendered = function() {
         document.getElementById("rectco").innerHTML = rectDisplay;
     }
 
+    function resetTags() {
+      // Clear rect
+      rect.startX = 0;
+      rect.startY = 0;
+      rect.w = 0;
+      rect.h = 0;
+
+      // Clear the form
+      document.getElementById("tagOut").reset();
+      document.getElementById("range").innerHTML=0;
+    }
+
     $('#loadID').click(function(e) {
 
       console.log('Loading Image ...');
       console.log('Load Button : ' + metaDataImage.find().count() );
       imgDoc = metaDataImage.findOne({tagged:false});
-      init(imgDoc.name)
+      init(imgDoc.name);
+      resetTags();
+
     });
 
     $('#tagID').click(function(e) {
@@ -123,6 +132,7 @@ Template.akshay.rendered = function() {
             W: taggedFace.W,
             H: taggedFace.H,
             sex: $('input[name=sex]:checked', '#tagOut').val(),
+            age: $('input[name=age]').val(),
             facehair: $('input[name=facehair]:checked', '#tagOut').val(),
             glasses: $('input[name=glasses]:checked', '#tagOut').val(),
             hairtype: $('input[name=hairtype]:checked', '#tagOut').val(),
@@ -134,14 +144,7 @@ Template.akshay.rendered = function() {
 
         console.log( taggedFaces );
 
-        // Clear rect
-        rect.startX = 0;
-        rect.startY = 0;
-        rect.w = 0;
-        rect.h = 0;
-
-        // Clear the form
-        document.getElementById("tagOut").reset();
+        resetTags();
 
         draw();
 
