@@ -20,6 +20,8 @@ Meteor.methods({
 
     if( ext == 'zip' )
     {
+      setname = name.split('.')[0];
+
       // Make it unzip files with image extensions
       var unzipper = new DecompressZip(chroot + "/tmp/" + name);
 
@@ -56,9 +58,10 @@ Meteor.methods({
             // create the new image entry
             var newImage = {
                 _id: md5_filename,
-                path: chroot,
                 name: md5_filename + "." + ext,
                 orgname: file,
+                setname: setname,
+                path: chroot,
                 tagged: false
             };
 
