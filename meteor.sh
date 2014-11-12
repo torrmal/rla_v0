@@ -37,6 +37,8 @@ add-apt-repository ppa:chris-lea/node.js
 apt-get update
 apt-get install -y build-essential nodejs mongodb
 npm install -g forever
+npm install -g md5
+npm install -g decompress-zip
 ENDSSH
 echo Done. You can now deploy your app.
 ;;
