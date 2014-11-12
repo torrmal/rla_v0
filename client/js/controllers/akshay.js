@@ -8,17 +8,17 @@ Template.akshay.rendered = function() {
     taggedFace = {};
     taggedFaces = [];
 
+    selected = false;
+    selectRect = {};
+
+    canvasActive = false;
+
     var background = new Image();
 
     function init(imgname) {
-        //background.src = "http://www.fmwconcepts.com/misc_tests/spraypaint/lena.jpg";
-        //background.src = "http://upload.wikimedia.org/wikipedia/en/2/24/Lenna.png";
-        //background.src = "/images/widthlong.jpg";
-        //background.src = "/images/heightlong.jpg";
 
-        //background.src = "/training_images~/untagged/213a13bdf757144d2e0a8057be0426cc.png";
         background.src = "/training_images~/untagged/" + imgname.toString();
-        console.log(background.src);
+        //console.log(background.src);
 
         scale = 1;
         displayWidth = 0;
@@ -38,15 +38,44 @@ Template.akshay.rendered = function() {
             displayHeight = background.height * scale;
 
             ctx.drawImage(background, 0, 0, displayWidth, displayHeight);
-            //canvas.width / 2 - background.width / 2,
-            //canvas.height / 2 - background.height / 2);
+            canvasActive = true;
         }
+
         canvas.addEventListener('mousedown', mouseDown, false);
         canvas.addEventListener('mouseup', mouseUp, false);
         canvas.addEventListener('mousemove', mouseMove, false);
+        canvas.addEventListener('dblclick', dblclick, false);
+    }
+
+    $( document ).keydown(function() {
+      if( selected ) {
+
+        for (f = 0; f < taggedFaces.length; f++) {
+          if( selectRect.X == taggedFaces[f].X &&
+              selectRect.Y == taggedFaces[f].Y &&
+              selectRect.W == taggedFaces[f].W &&
+              selectRect.H == taggedFaces[f].H )
+          {
+            taggedFaces.splice(f,1);
+            resetSelect();
+            break;
+          }
+        }
+
+        draw();
+      }
+    });
+
+    function resetSelect() {
+        selected = false;
+        selectRect.X = 0;
+        selectRect.Y = 0;
+        selectRect.W = 0;
+        selectRect.H = 0;
     }
 
     function mouseDown(e) {
+        resetSelect();
         rect.startX = e.pageX - this.offsetLeft;
         rect.startY = e.pageY - this.offsetTop;
         drag = true;
@@ -57,7 +86,7 @@ Template.akshay.rendered = function() {
     }
 
     function mouseMove(e) {
-        if (drag) {
+        if (drag && canvasActive) {
             rect.w = (e.pageX - this.offsetLeft) - rect.startX;
             rect.h = (e.pageY - this.offsetTop) - rect.startY;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -65,23 +94,64 @@ Template.akshay.rendered = function() {
         }
     }
 
+    function dblclick(e) {
+        ptX = e.pageX - this.offsetLeft;
+        ptY = e.pageY - this.offsetTop;
+
+        for (f = 0; f < taggedFaces.length; f++) {
+            if( ptX >= (taggedFaces[f].X * scale) &&
+                ptX <= (taggedFaces[f].X * scale + taggedFaces[f].W * scale) &&
+                ptY >= (taggedFaces[f].Y * scale) &&
+                ptY <= (taggedFaces[f].Y * scale + taggedFaces[f].H * scale) )
+            {
+                drawRect(ctx,"#FF0000", taggedFaces[f].X * scale,
+                                        taggedFaces[f].Y * scale,
+                                        taggedFaces[f].W * scale,
+                                        taggedFaces[f].H * scale);
+                drawSelect(ctx,"#FF0000", taggedFaces[f].X * scale,
+                                          taggedFaces[f].Y * scale,
+                                          taggedFaces[f].W * scale,
+                                          taggedFaces[f].H * scale, 8);
+                selected = true;
+                selectRect.X = taggedFaces[f].X;
+                selectRect.Y = taggedFaces[f].Y;
+                selectRect.W = taggedFaces[f].W;
+                selectRect.H = taggedFaces[f].H;
+                break;
+            }
+        }
+    }
+
+    function drawRect(ctx,colorStr,X,Y,W,H) {
+        ctx.strokeStyle = colorStr;
+        ctx.strokeRect( Math.round( X ) ,
+                        Math.round( Y ) ,
+                        Math.round( W ) ,
+                        Math.round( H ) );
+    }
+
+    function drawSelect(ctx,colorStr,X,Y,W,H,B) {
+        ctx.fillStyle = colorStr;
+        ctx.fillRect( X,         Y,         B, B);
+        ctx.fillRect( X + W - B, Y,         B, B);
+        ctx.fillRect( X,         Y + H - B, B, B);
+        ctx.fillRect( X + W - B, Y + H - B, B, B);
+    }
+
     function draw() {
         ctx.lineWidth = 2;
         ctx.lineJoin = 'round';
         ctx.drawImage(background, 0, 0, displayWidth, displayHeight);
 
-        ctx.strokeStyle = "#FF0000";
-        console.log( taggedFaces.length );
         for (f = 0; f < taggedFaces.length; f++) {
-            ctx.strokeRect( Math.round( taggedFaces[f].X * scale) ,
-                            Math.round( taggedFaces[f].Y * scale) ,
-                            Math.round( taggedFaces[f].W * scale) ,
-                            Math.round( taggedFaces[f].H * scale) );
+            drawRect(ctx,"#FF0000", taggedFaces[f].X * scale,
+                                    taggedFaces[f].Y * scale,
+                                    taggedFaces[f].W * scale,
+                                    taggedFaces[f].H * scale);
         }
 
         if (rect.w != 0 && rect.h != 0) {
-            ctx.strokeStyle = "#00FF00";
-            ctx.strokeRect(rect.startX, rect.startY, rect.w, rect.h);
+            drawRect(ctx,"#00FF00", rect.startX, rect.startY, rect.w, rect.h);
         }
 
         rectDisplay = "";
@@ -101,12 +171,26 @@ Template.akshay.rendered = function() {
         document.getElementById("rectco").innerHTML = rectDisplay;
     }
 
+    function resetTags() {
+      // Clear rect
+      rect.startX = 0;
+      rect.startY = 0;
+      rect.w = 0;
+      rect.h = 0;
+
+      // Clear the form
+      document.getElementById("tagOut").reset();
+      document.getElementById("range").innerHTML=0;
+    }
+
     $('#loadID').click(function(e) {
 
       console.log('Loading Image ...');
       console.log('Load Button : ' + metaDataImage.find().count() );
       imgDoc = metaDataImage.findOne({tagged:false});
-      init(imgDoc.name)
+      init(imgDoc.name);
+      resetTags();
+
     });
 
     $('#tagID').click(function(e) {
@@ -123,6 +207,7 @@ Template.akshay.rendered = function() {
             W: taggedFace.W,
             H: taggedFace.H,
             sex: $('input[name=sex]:checked', '#tagOut').val(),
+            age: $('input[name=age]').val(),
             facehair: $('input[name=facehair]:checked', '#tagOut').val(),
             glasses: $('input[name=glasses]:checked', '#tagOut').val(),
             hairtype: $('input[name=hairtype]:checked', '#tagOut').val(),
@@ -132,16 +217,7 @@ Template.akshay.rendered = function() {
             hat: $('input[name=hat]:checked', '#tagOut').val()
         });
 
-        console.log( taggedFaces );
-
-        // Clear rect
-        rect.startX = 0;
-        rect.startY = 0;
-        rect.w = 0;
-        rect.h = 0;
-
-        // Clear the form
-        document.getElementById("tagOut").reset();
+        resetTags();
 
         draw();
 
@@ -165,8 +241,11 @@ Template.akshay.rendered = function() {
 
           // Clear canvas
           ctx.clearRect(0, 0, canvas.width, canvas.height);
+          canvasActive = false;
           // Clear tagged faces
           taggedFaces = [];
+          // Clear background image
+          background.src = "";
         }
     });
 

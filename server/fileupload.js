@@ -20,6 +20,8 @@ Meteor.methods({
 
     if( ext == 'zip' )
     {
+      setname = name.split('.')[0];
+
       // Make it unzip files with image extensions
       var unzipper = new DecompressZip(chroot + "/tmp/" + name);
 
@@ -46,7 +48,7 @@ Meteor.methods({
           // Accepted image extensions
           if( ext === 'jpg' || ext === 'png' || ext === 'bmp')
           {
-            /*insertImageToDb(chroot,extractDir,file,ext);*/
+            /*new Fiber( insertImageToDb(chroot,extractDir,file,ext) ).run();*/
 
             var md5_filename = MD5( fs.readFileSync( chroot + "/" + extractDir + "/" + file ) );
 
@@ -56,9 +58,10 @@ Meteor.methods({
             // create the new image entry
             var newImage = {
                 _id: md5_filename,
-                path: chroot,
                 name: md5_filename + "." + ext,
                 orgname: file,
+                setname: setname,
+                path: chroot,
                 tagged: false
             };
 

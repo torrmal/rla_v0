@@ -44,6 +44,29 @@
 		<p>Gender</p>
 		<input type="radio" name="sex" value="male">Male
 		<input type="radio" name="sex" value="female">Female
+		<p>Age ___ <span id="range">0</span> </p>
+		0<input type="range" name="age" style="width: 200px; height: 20px;" min="0" max="100" value="0" step="1" onchange="showValue(this.value)"/>100
+		<p>Child : 0 - 15 | Young : 16 - 35</p>
+		<p>Adult : 36 - 65 | Senior : 66 - 100</p>
+		<!--
+		<div>
+		<svg width="220" height="20">
+		<defs>
+	    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+	      <stop offset="0%" style="stop-color:rgb(0,0,255);stop-opacity:1" />
+	      <stop offset="100%" style="stop-color:rgb(0,0,255);stop-opacity:1" />
+	    </linearGradient>
+	  	</defs>
+		 <rect x="10" width="200px" height="20px" fill="url(#grad1);"/>
+		</svg>
+		</div>
+		-->
+		<script type="text/javascript">
+			function showValue(newValue)
+			{
+				document.getElementById("range").innerHTML=newValue;
+			}
+		</script>
 		<p>Facial Hair</p>
 		<input type="radio" name="facehair" value="yes">Yes
 		<input type="radio" name="facehair" value="no">No
