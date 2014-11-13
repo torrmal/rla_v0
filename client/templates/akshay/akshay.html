@@ -41,56 +41,50 @@
 
 <template name="tagForm">
 	<form id="tagOut">
-		<p>Gender</p>
+		<p><b>Gender</b></p>
 		<input type="radio" name="sex" value="male">Male
 		<input type="radio" name="sex" value="female">Female
-		<p>Age ___ <span id="range">0</span> </p>
+		<p><b>Age</b> ___ <span id="range">0</span> </p>
 		0<input type="range" name="age" style="width: 200px; height: 20px;" min="0" max="100" value="0" step="1" onchange="showValue(this.value)"/>100
 		<p>Child : 0 - 15 | Young : 16 - 35</p>
 		<p>Adult : 36 - 65 | Senior : 66 - 100</p>
-		<!--
-		<div>
-		<svg width="220" height="20">
-		<defs>
-	    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
-	      <stop offset="0%" style="stop-color:rgb(0,0,255);stop-opacity:1" />
-	      <stop offset="100%" style="stop-color:rgb(0,0,255);stop-opacity:1" />
-	    </linearGradient>
-	  	</defs>
-		 <rect x="10" width="200px" height="20px" fill="url(#grad1);"/>
-		</svg>
-		</div>
-		-->
 		<script type="text/javascript">
 			function showValue(newValue)
 			{
 				document.getElementById("range").innerHTML=newValue;
 			}
 		</script>
-		<p>Facial Hair</p>
+		<p><b>Ethnicity</b></p>
+		<p><input type="radio" name="ethnicity" value="white">White (Caucasian)</p>
+		<p><input type="radio" name="ethnicity" value="dark">Dark European</p>
+		<p><input type="radio" name="ethnicity" value="black">Black</p>
+		<p><input type="radio" name="ethnicity" value="asian">South East Asian (China, Japan, etc)</p>
+		<p><input type="radio" name="ethnicity" value="southasian">South Asian (India, Pakistan, etc)</p>
+		<p><input type="radio" name="ethnicity" value="arabic">Arabic or North African</p>
+		<p><input type="radio" name="ethnicity" value="unknown">Unknown</p>
+		<p><b>Facial Hair</b></p>
 		<input type="radio" name="facehair" value="yes">Yes
 		<input type="radio" name="facehair" value="no">No
-		<p>Glasses</p>
-		<input type="radio" name="glasses" value="yes">Yes
-		<input type="radio" name="glasses" value="no">No
-		<p>Hair Type</p>
-		<input type="radio" name="hairtype" value="blonde">Blonde
+		<p><b>Reading Glasses</b></p>
+		<input type="radio" name="readglasses" value="yes">Yes
+		<input type="radio" name="readglasses" value="no">No
+		<p><b>Sun Glasses</b></p>
+		<input type="radio" name="sunglasses" value="yes">Yes
+		<input type="radio" name="sunglasses" value="no">No
+		<p><b>Hair Type</b></p>
 		<input type="radio" name="hairtype" value="red">Red
+		<input type="radio" name="hairtype" value="blonde">Blonde
+		<input type="radio" name="hairtype" value="brown">Brown
 		<input type="radio" name="hairtype" value="black">Black
 		<input type="radio" name="hairtype" value="gray">Gray
-		<p>Hair Style</p>
+		<p><b>Hair Style</b></p>
 		<input type="radio" name="hairstyle" value="long">Long
 		<input type="radio" name="hairstyle" value="short">Short
-		<input type="radio" name="hairstyle" value="bold">Bold
-		<p>Make Up</p>
+		<input type="radio" name="hairstyle" value="bold">Bald
+		<!--<p><b>Make Up</b></p>
 		<input type="radio" name="makeup" value="yes">Yes
-		<input type="radio" name="makeup" value="no">No
-		<p>Skin Color</p>
-		<input type="radio" name="skincolor" value="light">Light
-		<input type="radio" name="skincolor" value="olive">Olive
-		<input type="radio" name="skincolor" value="tan">Tan
-		<input type="radio" name="skincolor" value="dark">Dark
-		<p>Hat</p>
+		<input type="radio" name="makeup" value="no">No-->
+		<p><b>Hat</b></p>
 		<input type="radio" name="hat" value="yes">Yes
 		<input type="radio" name="hat" value="no">No
 	</form>
