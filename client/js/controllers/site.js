@@ -7,11 +7,14 @@ Router.map( function () {
     // get parameter via this.params
     path: '/'
   });
+
+
+
   this.route('demo2');
   //this.route('device');
   this.route('monitor');
   this.route('demo4',{
-     
+
     waitOn: function(){
         return [
           IRLibLoader.load('/youtube-video.js'),
@@ -21,7 +24,7 @@ Router.map( function () {
     }
   });
   this.route('dashboard',{
-     
+
     waitOn: function(){
         return [
           IRLibLoader.load('/Chart.min.js'),
@@ -43,7 +46,7 @@ Router.map( function () {
     }
   });
   this.route('demo3',{
-   
+
     waitOn: function(){
         return [
           IRLibLoader.load('/youtube-video.js'),
@@ -58,14 +61,14 @@ Router.map( function () {
 
 $( document ).ready(function() {
 
-  
+
 });
 
 
 
-    
-    
 
-    
+
+
+
 
 

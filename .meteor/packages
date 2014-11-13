@@ -11,4 +11,6 @@ underscore
 arunoda:streams
 manuelschoebel:wait-on-lib
 autopublish
+meteorhacks:npm
 
+npm-container
