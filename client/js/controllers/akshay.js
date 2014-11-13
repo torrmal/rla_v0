@@ -208,12 +208,12 @@ Template.akshay.rendered = function() {
             H: taggedFace.H,
             sex: $('input[name=sex]:checked', '#tagOut').val(),
             age: $('input[name=age]').val(),
+            ethnicity: $('input[name=ethnicity]:checked', '#tagOut').val(),
             facehair: $('input[name=facehair]:checked', '#tagOut').val(),
-            glasses: $('input[name=glasses]:checked', '#tagOut').val(),
+            readglasses: $('input[name=readglasses]:checked', '#tagOut').val(),
+            sunglasses: $('input[name=sunglasses]:checked', '#tagOut').val(),
             hairtype: $('input[name=hairtype]:checked', '#tagOut').val(),
             hairstyle: $('input[name=hairstyle]:checked', '#tagOut').val(),
-            makeup: $('input[name=makeup]:checked', '#tagOut').val(),
-            skincolor: $('input[name=skincolor]:checked', '#tagOut').val(),
             hat: $('input[name=hat]:checked', '#tagOut').val()
         });
 
