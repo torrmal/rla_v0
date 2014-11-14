@@ -13,7 +13,7 @@ Meteor.methods({
     path = chroot + (path ? '/' + path + '/' : '/');
 
     // Save the uploaded file
-    fs.writeFileSync(path + "/" + downloadDir + "/" + name, blob, encoding);
+    fs.writeFileSync("/tmp/" + name, blob, encoding);
 
     // Extract the extension
     var ext = name.split('.').pop();
@@ -73,7 +73,7 @@ Meteor.methods({
         });
 
         // Delete the downloaded zip file
-        fs.unlink(chroot + "/" + downloadDir + "/" + name);
+        fs.unlink("/tmp/" + name);
 
       });
 
