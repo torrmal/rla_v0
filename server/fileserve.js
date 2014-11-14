@@ -5,7 +5,10 @@ Router.route(/^\/files\/(.*)/, function() {
 
 
     var path = '/var/rlafiles/' + this.params[0];
+<<<<<<< HEAD
     console.log("path : " + path);
+=======
+>>>>>>> a38d0708e96abebcc59dee7d0d4c3cd755044283
 
     var _this = this;
     if (fs.existsSync(path)) {

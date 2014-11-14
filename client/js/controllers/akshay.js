@@ -21,8 +21,12 @@ Template.akshay.rendered = function() {
     function init(imgname) {
 
         background.src = "/files/untagged/" + imgname.toString();
+<<<<<<< HEAD
         //chroot + imgname.toString();//"
         console.log("back : " + background.src);
+=======
+        //console.log(background.src);
+>>>>>>> a38d0708e96abebcc59dee7d0d4c3cd755044283
 
         scale = 1;
         displayWidth = 0;
