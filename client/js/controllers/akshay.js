@@ -228,8 +228,6 @@ Template.akshay.rendered = function() {
 
         if(  confirm('Are you done tagging the image?') )
         {
-          console.log('tagged');
-
           metaDataImage.update({
             _id: imgDoc._id
           }, {

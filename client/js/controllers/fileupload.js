@@ -1,7 +1,7 @@
 
 Template.fileupload.events({
-  'change input': function(ev) {  
-  	
+  'change input': function(ev) {
+
     _.each(ev.currentTarget.files, function(file) {
       FileUpload.saveFile(file, file.name);
     });
@@ -18,7 +18,7 @@ FileUpload = {
 		      method = 'readAsText';
 		      encoding = 'utf8';
 		      break;
-		    case 'binary': 
+		    case 'binary':
 		      method = 'readAsBinaryString';
 		      encoding = 'binary';
 		      break;
@@ -28,7 +28,9 @@ FileUpload = {
 		      break;
 		  }
 		  fileReader.onload = function(file) {
-		    Meteor.call('saveFile', file.srcElement.result, name, path, encoding, callback);
+		    Meteor.call('saveFile', file.srcElement.result, name, path, encoding, function(){
+		    	alert("File " + name + " uploaded.");
+		    });
 		  }
 		  fileReader[method](blob);
 	}
