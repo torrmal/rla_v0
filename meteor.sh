@@ -20,7 +20,6 @@ METEOR_CMD=meteor
 
 
 chmod 700 $EC2_PEM_FILE
-sudo chmod 777 /tmp
 
 if [ -z "$EC2_PEM_FILE" ]; then
     SSH_HOST="ubuntu@$APP_HOST" SSH_OPT=""
