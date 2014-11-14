@@ -1,135 +1,129 @@
+
+
 Meteor.methods({
 
-  saveFile: function(blob, name, path, encoding) {
+    saveFile: function(blob, name, path, encoding) {
 
-    var path = cleanPath(path),
-    name = cleanName(name || 'file'), encoding = encoding || 'binary',
-    chroot =  process.env['PWD'] +'/public/training_images~';
+        var path = cleanPath(path),
+            name = cleanName(name || 'file'),
+            encoding = encoding || 'binary',
+            chroot = '/var/rlafiles',
+            downloadDir = '/tmp',
+            extractDir = '/tmp'
+            untaggedDir = '/var/rlafiles';
 
-    //chroot =  Npm.require('fs').realpathSync( process.cwd() + '/../' ) +'/public';
-    // Clean up the path. Remove any initial and final '/' -we prefix them-,
-    // any sort of attempt to go to the parent directory '..' and any empty directories in
-    // between '/////' - which may happen after removing '..'
-    path = chroot + (path ? '/' + path + '/' : '/');
+        //chroot =  Npm.require('fs').realpathSync( process.cwd() + '/../' ) +'/public';
+        // Clean up the path. Remove any initial and final '/' -we prefix them-,
+        // any sort of attempt to go to the parent directory '..' and any empty directories in
+        // between '/////' - which may happen after removing '..'
+        path = chroot + (path ? '/' + path + '/' : '/');
 
-    // Save the uploaded file
-    fs.writeFileSync(path + "/" + downloadDir + "/" + name, blob, encoding);
+        // Save the uploaded file
+        var tmpZipFile = downloadDir + "/" + name;
+        fs.writeFileSync(tmpZipFile, blob, encoding);
 
-    // Extract the extension
-    var ext = name.split('.').pop();
+        // Extract the extension
+        var ext = name.split('.').pop();
+        var setname = name.split('.')[0];
 
-    if( ext == 'zip' )
-    {
-      setname = name.split('.')[0];
-
-      // Make it unzip files with image extensions
-      var unzipper = new DecompressZip(chroot + "/tmp/" + name);
-
-      unzipper.on('error', function (err) {
-          console.log("Err Err");
-          console.log(err);
-      });
-
-      unzipper.on('extract', function (log) {
-          console.log('Finished extracting');
-          unzipper.list();
-      });
-
-      unzipper.on('list', function (files) {
-
-        console.log('The archive contains:');
-        console.log(files);
-
-        // Move the extracted files that match the image extension
-        // Delete the files from extract folder that do not match the image extension
-        files.forEach(function(file) {
-
-          ext = file.split('.').pop();
+        var storeImage = function(filename_i)
+        {
+          var file = filename_i.split('/').pop();
+          console.log('file:' + file);
+          var ext = file.split('.').pop();
+          console.log('file:' + ext);
           // Accepted image extensions
-          if( ext === 'jpg' || ext === 'png' || ext === 'bmp')
-          {
-            /*new Fiber( insertImageToDb(chroot,extractDir,file,ext) ).run();*/
+          if (ext === 'jpg' || ext === 'png' || ext === 'bmp') {
+              /*new Fiber( insertImageToDb(chroot,extractDir,file,ext) ).run();*/
 
-            var md5_filename = MD5( fs.readFileSync( chroot + "/" + extractDir + "/" + file ) );
+              var md5_filename = MD5(fs.readFileSync(filename_i));
+              var md5_file_with_path = untaggedDir + "/" + md5_filename + "." + ext;
+              fs.renameSync(filename_i, md5_file_with_path);
 
-            fs.renameSync(chroot + "/" + extractDir + "/" + file,
-                          chroot + "/" + untaggedDir + "/" + md5_filename + "." + ext);
+              // create the new image entry
+              var newImage = {
+                  _id: md5_filename,
+                  name: md5_filename + "." + ext,
+                  orgname: file,
+                  setname: setname,
+                  path: untaggedDir,
+                  tagged: false
+              };
 
-            // create the new image entry
-            var newImage = {
-                _id: md5_filename,
-                name: md5_filename + "." + ext,
-                orgname: file,
-                setname: setname,
-                path: chroot,
-                tagged: false
-            };
-
-            new Fiber( function() {
-              metaDataImage.insert(newImage);
-            }).run();
+              new Fiber(function() {
+                  metaDataImage.insert(newImage);
+              }).run();
 
           }
-        });
+          fs.unlink(filename_i);
+        }
 
-        // Delete the downloaded zip file
-        fs.unlink(chroot + "/" + downloadDir + "/" + name);
+        if (ext == 'zip') {
 
-      });
 
-      unzipper.extract({
-        path: chroot + '/extract'
-      });
+            // Make it unzip files with image extensions
+            var unzipper = new DecompressZip(tmpZipFile);
 
-    }// end of zip if
-    else
-    {
+            unzipper.on('error', function(err) {
+                console.log("Err Err");
+                console.log(err);
+            });
 
-      // Accepted image extensions
-      if( ext === 'jpg' || ext === 'png' || ext === 'bmp')
-      {
-        /*insertImageToDb(chroot,extractDir,file,ext);*/
+            unzipper.on('extract', function(log) {
+                console.log('Finished extracting');
+                unzipper.list();
+            });
 
-        file = name;
+            unzipper.on('list', function(files) {
 
-        var md5_filename = MD5( fs.readFileSync( chroot + "/" + downloadDir + "/" + file ) );
+                console.log('The archive contains:');
+                console.log(files);
 
-        fs.renameSync(chroot + "/" + downloadDir + "/" + file,
-                      chroot + "/" + untaggedDir + "/" + md5_filename + "." + ext);
+                // Move the extracted files that match the image extension
+                // Delete the files from extract folder that do not match the image extension
+                files.forEach(function(file) {
 
-        // create the new image entry
-        var newImage = {
-            _id: md5_filename,
-            path: chroot,
-            name: md5_filename + "." + ext,
-            orgname: file,
-            tagged: false
-        };
+                    var filename_i = extractDir + "/" + file;
+                    storeImage(filename_i);
+                });
 
-        new Fiber( function() {
-          metaDataImage.insert(newImage);
-        }).run();
-      }
-      else
-      {
-        console.log('Error : Compression extension not supported yet');
-        console.log('Error : Image extension not supported yet');
-      }
+                // Delete the downloaded zip file
+                fs.unlink(tmpZipFile);
 
-    }
+            });
 
-    function cleanPath(str) {
-      if (str) {
-        return str.replace(/\.\./g,'').replace(/\/+/g,'').
-          replace(/^\/+/,'').replace(/\/+$/,'');
-      }
-    }
+            unzipper.extract({
+                path: extractDir
+            });
 
-    function cleanName(str) {
-      return str.replace(/\.\./g,'').replace(/\//g,'');
-    }
+        } // end of zip if
+        else {
 
-    /*
+            // Accepted image extensions
+            if (ext === 'jpg' || ext === 'png' || ext === 'bmp') {
+                /*insertImageToDb(chroot,extractDir,file,ext);*/
+                var filename_i = tmpZipFile;
+                storeImage(filename_i);
+
+            } else {
+                console.log('Error : Compression extension not supported yet');
+                console.log('Error : Image extension not supported yet');
+            }
+
+        }
+
+        function cleanPath(str) {
+            if (str) {
+                return str.replace(/\.\./g, '').replace(/\/+/g, '').
+                replace(/^\/+/, '').replace(/\/+$/, '');
+            }
+        }
+
+        function cleanName(str) {
+            return str.replace(/\.\./g, '').replace(/\//g, '');
+        }
+
+        /*
     function insertImageToDb(chroot,folder,filename,extension) {
 
       var md5_filename = MD5( fs.readFileSync( chroot + '/' + folder + '/' + filename ) );
@@ -150,29 +144,29 @@ Meteor.methods({
         metaDataImage.insert(newImage);
       }).run();
     }*/
-  }
+    }
 
 });
 
 if (Meteor.isServer) {
-  console.log("Hello Server!");
+    console.log("Hello Server!");
 
-  // Declare server image collection
-  //metaDataImage = new Meteor.Collection("Image_Meta_Data");
+    // Declare server image collection
+    //metaDataImage = new Meteor.Collection("Image_Meta_Data");
 
-  Meteor.startup(function () {
+    Meteor.startup(function() {
 
-    console.log( 'fileupload server : ' + metaDataImage.find().count() );
+        console.log('fileupload server : ' + metaDataImage.find().count());
 
-    DecompressZip = Npm.require('decompress-zip');
-    Fiber = Npm.require('fibers');
-    fs = Npm.require('fs');
-    MD5 = Npm.require('MD5');
+        DecompressZip = Npm.require('decompress-zip');
+        Fiber = Npm.require('fibers');
+        fs = Npm.require('fs');
+        MD5 = Npm.require('MD5');
 
-    downloadDir = "tmp";
-    extractDir = "extract";
-    untaggedDir = "untagged";
+        downloadDir = "tmp";
+        extractDir = "extract";
+        untaggedDir = "untagged";
 
-  });
+    });
 
 }
