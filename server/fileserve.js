@@ -4,7 +4,7 @@ var mime = Npm.require('mime');
 Router.route(/^\/files\/(.*)/, function() {
 
 
-    var path = '/tmp/' + this.params[0];
+    var path = '/var/rlafiles/' + this.params[0];
 
     var _this = this;
     if (fs.existsSync(path)) {

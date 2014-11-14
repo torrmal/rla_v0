@@ -17,7 +17,7 @@ Template.akshay.rendered = function() {
 
     function init(imgname) {
 
-        background.src = "/training_images~/untagged/" + imgname.toString();
+        background.src = "/files/untagged/" + imgname.toString();
         //console.log(background.src);
 
         scale = 1;

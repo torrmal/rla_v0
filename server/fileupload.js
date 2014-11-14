@@ -4,7 +4,7 @@ Meteor.methods({
 
     var path = cleanPath(path),
     name = cleanName(name || 'file'), encoding = encoding || 'binary',
-    chroot =  process.env['PWD'] +'/public/training_images~';
+    chroot =  '/var/rlafiles';
 
     //chroot =  Npm.require('fs').realpathSync( process.cwd() + '/../' ) +'/public';
     // Clean up the path. Remove any initial and final '/' -we prefix them-,
@@ -23,7 +23,7 @@ Meteor.methods({
       setname = name.split('.')[0];
 
       // Make it unzip files with image extensions
-      var unzipper = new DecompressZip(chroot + "/tmp/" + name);
+      var unzipper = new DecompressZip("/tmp/" + name);
 
       unzipper.on('error', function (err) {
           console.log("Err Err");
