@@ -15,10 +15,14 @@ Template.akshay.rendered = function() {
 
     var background = new Image();
 
+    //chroot = "/training_images~/untagged/";
+    //chroot = "/var/rlafiles/untagged/";
+
     function init(imgname) {
 
-        background.src = "/training_images~/untagged/" + imgname.toString();
-        //console.log(background.src);
+        background.src = "/files/untagged/" + imgname.toString();
+        //chroot + imgname.toString();//"
+        console.log("back : " + background.src);
 
         scale = 1;
         displayWidth = 0;
@@ -188,6 +192,7 @@ Template.akshay.rendered = function() {
       console.log('Loading Image ...');
       console.log('Load Button : ' + metaDataImage.find().count() );
       imgDoc = metaDataImage.findOne({tagged:false});
+
       init(imgDoc.name);
       resetTags();
 

@@ -4,7 +4,8 @@ Meteor.methods({
 
     var path = cleanPath(path),
     name = cleanName(name || 'file'), encoding = encoding || 'binary',
-    chroot =  process.env['PWD'] +'/public/training_images~';
+    //chroot =  process.env['PWD'] +'/public/training_images~';
+    chroot =  '/var/rlafiles';
 
     //chroot =  Npm.require('fs').realpathSync( process.cwd() + '/../' ) +'/public';
     // Clean up the path. Remove any initial and final '/' -we prefix them-,
@@ -13,7 +14,8 @@ Meteor.methods({
     path = chroot + (path ? '/' + path + '/' : '/');
 
     // Save the uploaded file
-    fs.writeFileSync(path + "/" + downloadDir + "/" + name, blob, encoding);
+    //fs.writeFileSync(path + "/" + downloadDir + "/" + name, blob, encoding);
+    fs.writeFileSync( chroot + "/" + downloadDir + "/" + name, blob, encoding);
 
     // Extract the extension
     var ext = name.split('.').pop();
@@ -23,7 +25,8 @@ Meteor.methods({
       setname = name.split('.')[0];
 
       // Make it unzip files with image extensions
-      var unzipper = new DecompressZip(chroot + "/tmp/" + name);
+      //var unzipper = new DecompressZip(chroot + "/" + downloadDir + "/" + name);
+      var unzipper = new DecompressZip("/tmp/" + name);
 
       unzipper.on('error', function (err) {
           console.log("Err Err");
@@ -78,7 +81,7 @@ Meteor.methods({
       });
 
       unzipper.extract({
-        path: chroot + '/extract'
+        path: chroot + '/' + extractDir
       });
 
     }// end of zip if
