@@ -187,14 +187,22 @@ Template.akshay.rendered = function() {
 
     $('#loadID').click(function(e) {
 
-      console.log('Loading Image ...');
-      console.log('Load Button : ' + metaDataImage.find().count() );
-      imgDoc = metaDataImage.findOne({tagged:false});
+        if ( canvasActive )
+            return;
 
-      metaDataImage.update({ _id: imgDoc._id },{ $set: { inuse: true } });
+        console.log('Loading Image ...');
+        console.log('Load Button : ' + metaDataImage.find().count() );
+        imgDoc = metaDataImage.findOne({tagged:false,inuse: false});
 
-      init(imgDoc.name);
-      resetTags();
+        if( typeof imgDoc === 'undefined')
+        {
+            ctx.font="40px Georgia";
+            ctx.fillText("NO IMAGE TO TAG",10,50);
+        }
+
+        metaDataImage.update({ _id: imgDoc._id },{ $set: { inuse: true } });
+        init(imgDoc.name);
+        resetTags();
 
     });
 
