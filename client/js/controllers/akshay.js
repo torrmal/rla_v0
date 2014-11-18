@@ -198,6 +198,7 @@ Template.akshay.rendered = function() {
         {
             ctx.font="40px Georgia";
             ctx.fillText("NO IMAGE TO TAG",10,50);
+            return;
         }
 
         metaDataImage.update({ _id: imgDoc._id },{ $set: { inuse: true } });
