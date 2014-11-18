@@ -15,6 +15,8 @@ Template.akshay.rendered = function() {
 
     var background = new Image();
 
+    Meteor.subscribe('posts');
+
     function init(imgname) {
 
         background.src = "/files/" + imgname.toString();
@@ -188,6 +190,9 @@ Template.akshay.rendered = function() {
       console.log('Loading Image ...');
       console.log('Load Button : ' + metaDataImage.find().count() );
       imgDoc = metaDataImage.findOne({tagged:false});
+
+      metaDataImage.update({ _id: imgDoc._id },{ $set: { inuse: true } });
+
       init(imgDoc.name);
       resetTags();
 
@@ -233,6 +238,7 @@ Template.akshay.rendered = function() {
           }, {
             $set: {
               tagged: true,
+              inuse: false,
               tags: taggedFaces
             }
           });
@@ -244,7 +250,23 @@ Template.akshay.rendered = function() {
           taggedFaces = [];
           // Clear background image
           background.src = "";
+          // Reset Tags
+          resetTags();
         }
+    });
+
+    $('#cancelID').click(function(e) {
+        metaDataImage.update({ _id: imgDoc._id },{ $set: { inuse: false } });
+
+        // Clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        canvasActive = false;
+        // Clear tagged faces
+        taggedFaces = [];
+        // Clear background image
+        background.src = "";
+        // Reset Tags
+        resetTags();
     });
 
     //init();

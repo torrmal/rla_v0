@@ -3,6 +3,7 @@ Members = new Meteor.Collection("members");
 Router.map( function () {
   this.route('fileupload');
   this.route('akshay');
+  this.route('report');
   this.route('demo', {
     // get parameter via this.params
     path: '/'

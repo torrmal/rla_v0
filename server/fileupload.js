@@ -8,8 +8,8 @@ Meteor.methods({
             name = cleanName(name || 'file'),
             encoding = encoding || 'binary',
             //chroot = '/var/rlafiles',
-            downloadDir = '/tmp/tmp',
-            extractDir = '/tmp/extract'
+            downloadDir = '/tmp',
+            extractDir = '/tmp'
             untaggedDir = '/var/rlafiles';
 
         //chroot =  Npm.require('fs').realpathSync( process.cwd() + '/../' ) +'/public';
@@ -56,7 +56,8 @@ Meteor.methods({
                       orgname: file,
                       setname: setname,
                       path: untaggedDir,
-                      tagged: false
+                      tagged: false,
+                      inuse: false
                   };
 
                   new Fiber(function() {
@@ -135,27 +136,6 @@ Meteor.methods({
             return str.replace(/\.\./g, '').replace(/\//g, '');
         }
 
-        /*
-    function insertImageToDb(chroot,folder,filename,extension) {
-
-      var md5_filename = MD5( fs.readFileSync( chroot + '/' + folder + '/' + filename ) );
-
-      fs.renameSync(chroot + '/' + folder + '/' + filename,
-                    chroot + '/' + untaggedDir + '/' + md5_filename + "." + extension);
-
-      // create the new image entry
-      var newImage = {
-          //_id: md5_filename,
-          path: chroot, // Whether in tagged or untagged folder is determined by the 'tagged' prop state
-          name: md5_filename + "." + ext,
-          orgname: file,
-          tagged: false
-      };
-
-      new Fiber( function() {
-        metaDataImage.insert(newImage);
-      }).run();
-    }*/
     }
 
 });
@@ -165,6 +145,11 @@ if (Meteor.isServer) {
 
     // Declare server image collection
     //metaDataImage = new Meteor.Collection("Image_Meta_Data");
+
+    Meteor.publish('posts', function() {
+      return metaDataImage.find({tagged: false,inuse: false},{limit: 10});
+      //,{reactive: false}
+    });
 
     Meteor.startup(function() {
 
