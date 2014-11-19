@@ -209,6 +209,19 @@ Template.akshay.rendered = function() {
 
     $('#tagID').click(function(e) {
 
+        // Check the required form inputs
+        if ( $('input[name=sex]:checked', '#tagOut').val() !== 'male' &&
+             $('input[name=sex]:checked', '#tagOut').val() !== 'female' )
+        {
+            alert("Gender field is required.");
+            return;
+        }
+        if ( $('input[name=age]').val() <= 0 )
+        {
+            alert("Age field is required.");
+            return;
+        }
+
         rectDisplay =
             taggedFace.X.toString() + " " +
             taggedFace.Y.toString() + " " +

@@ -48,10 +48,10 @@
 
 <template name="tagForm">
 	<form id="tagOut">
-		<p><b>Gender</b></p>
+		<p><b>Gender *</b></p>
 		<input type="radio" name="sex" value="male">Male
 		<input type="radio" name="sex" value="female">Female
-		<p><b>Age</b> ___ <span id="range">0</span> </p>
+		<p><b>Age *</b> ___ <span id="range">0</span> </p>
 		0<input type="range" name="age" style="width: 200px; height: 20px;" min="0" max="100" value="0" step="1" onchange="showValue(this.value)"/>100
 		<p>Child : 0 - 15 | Young : 16 - 35</p>
 		<p>Adult : 36 - 65 | Senior : 66 - 100</p>
