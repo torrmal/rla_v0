@@ -1,7 +1,7 @@
 Template.dashboard.rendered = function(){
 
 	var win = $( window );
-
+	minuteData = [];
 
 	var tr = false;//new VideoBasicTransforms(VideoObject);
 
@@ -36,7 +36,7 @@ Template.dashboard.rendered = function(){
 	var show_dashboard_pannels = function(){
 		$('#dashboard_main_circle').animate({width: '280px', height: '280px'},200);
 		$('#dashboard_side_metrics').show(2000);
-		
+
 
 		$('#faces').show(200);
 		//$('.dashboard_faces').transition({ x: '0px', y: '280px' });
@@ -50,10 +50,10 @@ Template.dashboard.rendered = function(){
 		more_shown = true;
 		$('#dashboard_engagement').show(200);
 		$('#dashboard_engagement').transition({ x: '-400px', y: '150px' });
-		
+
 		$('#dashboard_age').show(200);
 		$('#dashboard_age').transition({ x: '-400px', y: '-150px' });
-		
+
 		$('#dashboard_gender').show(200);
 
 		$('#dashboard_gender_markers').show();
@@ -72,6 +72,14 @@ Template.dashboard.rendered = function(){
 	window['FemaleCount'] = 0;
 	window['MaleCount'] = 0;
 
+	minuteData.currentDate = new Date()
+	minuteData.currentTime = minuteData.currentDate.getTime();
+	minuteData.minuteStamp = minuteData.currentDate.getMinutes();
+	minuteData.hourStamp = minuteData.currentDate.getHours();
+	minuteData.dateStamp = minuteData.currentDate.getDate();
+	minuteData.monthStamp = minuteData.currentDate.getMonth();
+	minuteData.yearStamp = minuteData.currentDate.getYear();
+
 	var show_charts = function(){
 
 		var eng_labels = [];
@@ -79,7 +87,7 @@ Template.dashboard.rendered = function(){
 		for( var i in FemaleEngagement ){
 			eng_labels.push("");
 		}
-		
+
 		var data = {
 			labels : eng_labels,
 			datasets : [
@@ -133,7 +141,7 @@ Template.dashboard.rendered = function(){
 				value : MaleCount,
 				color : "rgba(151,187,205,0.8)"
 			},
-			
+
 
 		]
 
@@ -155,7 +163,7 @@ Template.dashboard.rendered = function(){
 		trained_gender_l = false;
 		trained_face_l = false;
 		trained_age = false;
-		
+
 
 	}
 
@@ -175,8 +183,8 @@ Template.dashboard.rendered = function(){
 
 	}
 
-	
-	
+
+
 	var update_bg = function(){
 		var w = $( window ).width()*1.3;
 		var h = w * 480/640;
@@ -190,8 +198,8 @@ Template.dashboard.rendered = function(){
 			640,
 			480,
 			w,h
-		); 
-		
+		);
+
 	}
 
 	var determine_features = function(sample,net_name){
@@ -214,14 +222,14 @@ Template.dashboard.rendered = function(){
 
 	    preds[0].k;
 
-	    return preds;    
+	    return preds;
 	}
 
 	var sample_test_instance = function(data_canvas) {
 
 	    var limg_data = false;
 	    var data_ctx  = data_canvas.getContext("2d");
-	      
+
 	      limg_data = data_ctx.getImageData(0, 0, 32, 32);
 
 	      var p = limg_data.data;
@@ -239,8 +247,8 @@ Template.dashboard.rendered = function(){
 	          }
 	        }
 	      }
-	     
-	      
+
+
 	      var xs = [];
 	      //xs.push(x, 32, 0, 0, false); // push an un-augmented copy
 	      for(var k=0;k<number_of_iterations;k++)
@@ -249,21 +257,21 @@ Template.dashboard.rendered = function(){
 	        var dy = Math.floor(Math.random()*5-2);
 	        xs.push(convnetjs.augment(x, 32, dx, dy, k>2));
 	      }
-	    
-	     
+
+
 	      return xs;
 	     // x = convnetjs.augment(x, 32, dx, dy, Math.random()<0.5);
 	      //var isval = use_validation_data && n%10===0 ? true : false;
 	      //callback({x:x, label:training_data[bi]['gender'], isval:false});
-	    
-	    
 
-	    
+
+
+
 	}
 
 	var video_loaded = false;
 	var on_video_loaded = function(){
-		
+
 		video_loaded = true;
 		load_from_json();
 		show_dashboard_pannels();
@@ -278,7 +286,27 @@ Template.dashboard.rendered = function(){
 	var times_none_count = 0;
 
 	var latest_second = parseInt((new Date().getTime())/1000);
-
+/**/
+	var insertDatabase = function(aggData){
+		dashBoardData.insert({
+            //_id: datetime.toString(),
+            //currTime: datetime,
+            male_count: aggData.mcount,
+            female_count: aggData.fcount,
+            male_ages: aggData.mages,
+            female_ages: aggData.fages,
+            male_engage: aggData.mengage,
+            female_engage: aggData.fengage,
+			timestamp: aggData.currentTime,
+			minute_index: aggData.minuteStamp,
+			hour_index: aggData.hourStamp,
+			date_index: aggData.dateStamp,
+			month_index: aggData.monthStamp,
+			year_index: aggData.yearStamp
+        });
+		//console.log(aggData.currentTime.getMinutes());
+	}
+/**/
 	var update_charts = function(gender, age){
 		var current_second = parseInt((new Date().getTime())/1000);
 		console.log(current_second);
@@ -291,31 +319,61 @@ Template.dashboard.rendered = function(){
 		}
 		latest_second = current_second;
 
-		FemaleEngagement[index] = (FemaleEngagement[index] != undefined) ? 
-									FemaleEngagement[index] :  
-								  	(index == 0)? 
+		FemaleEngagement[index] = (FemaleEngagement[index] != undefined) ?
+									FemaleEngagement[index] :
+								  	(index == 0)?
 								  		0:
 								  		parseFloat(parseFloat(FemaleEngagement[index-1]/2).toFixed(2));
 
 		//FemaleEngagement[index] = parseFloat(FemaleEngagement[index]).toFixed(2);
-		MaleEngagement[index] = (MaleEngagement[index] != undefined) ? 
-									MaleEngagement[index] :  
-								  	(index == 0)? 
+		MaleEngagement[index] = (MaleEngagement[index] != undefined) ?
+									MaleEngagement[index] :
+								  	(index == 0)?
 								  		0:
 								  		parseFloat(parseFloat(MaleEngagement[index-1]/2).toFixed(2));
 		//MaleEngagement[index] = parseFloat(MaleEngagement[index]).toFixed(2);
 
-		if(gender>=0){ 
+		if(gender>=0){
 			window[classes_txt[gender]+'Engagement'][index] = window[classes_txt[gender]+'Engagement'][index] + 0.1;
 			window[classes_txt[gender]+'Count'] =  window[classes_txt[gender]+'Count'] + 1;
 			window[classes_txt[gender]+'Ages'][age] =  window[classes_txt[gender]+'Ages'][age] + 1;
-
 		}
 
 		if(MaleEngagement.length > 20){
 			MaleEngagement.splice(0,1);
 			FemaleEngagement.splice(0,1);
 		}
+
+		// Update Collection Data
+		currentTime = new Date();
+    	minute = currentTime.getMinutes();
+		if( minuteData.minuteStamp != minute ) {
+
+			minuteData.fengage = window['FemaleEngagement'];
+			minuteData.mengage = window['MaleEngagement'] ;
+			minuteData.fages = window['FemaleAges'];
+			minuteData.mages = window['MaleAges'];
+			minuteData.fcount = window['FemaleCount'];
+			minuteData.mcount = window['MaleCount'];
+
+			insertDatabase(minuteData);
+			minuteData = [];
+			minuteData.currentDate = new Date();
+			minuteData.currentTime = minuteData.currentDate.getTime();
+			minuteData.minuteStamp = minuteData.currentDate.getMinutes();
+			minuteData.hourStamp = minuteData.currentDate.getHours();
+			minuteData.dateStamp = minuteData.currentDate.getDate();
+			minuteData.monthStamp = minuteData.currentDate.getMonth();
+			minuteData.yearStamp = minuteData.currentDate.getYear();
+
+			window['FemaleEngagement'] = [];
+			window['MaleEngagement'] = [];
+			window['FemaleAges'] = [90,100,100,100,90];
+			window['MaleAges'] = [90,100,100,100,90];
+			window['FemaleCount'] = 0;
+			window['MaleCount'] = 0;
+		}
+		// Update Collection Data
 
 		//else{var incr = 0;}
 		//console.log(window[classes_txt[gender]+'Engagement']);
@@ -324,7 +382,7 @@ Template.dashboard.rendered = function(){
 
 	var update_right_pannel = function(number_of_viewers){
 		if(number_of_viewers == 0){
-			update_charts(-1,-1);	
+			update_charts(-1,-1);
 		}
 		if(number_of_viewers == 0 && times_none_count <7){
 			times_none_count ++;
@@ -348,15 +406,15 @@ Template.dashboard.rendered = function(){
 		$('#current_viewers').html(number_of_viewers);
 		$('#seconds_engaged').html(total_seconds_viewed.toFixed(total_seconds_viewed>0?1:0));
 
-		
+
 
 	};
 
-	
-	
+
+
 	var f_listener = function(fdata, tr, tmp_canvas){
 
-		
+
 		if(!fdata.data[0] || fdata.data.length<=0){
 			update_right_pannel(0);
 		  return;
@@ -389,7 +447,7 @@ Template.dashboard.rendered = function(){
 				fdata.data[i].height+fdata.data[i].width*0.60,
 				32,
 				32
-			); 
+			);
 
 
 
@@ -401,12 +459,12 @@ Template.dashboard.rendered = function(){
 				fdata.data[i].height+fdata.data[i].width*0.60,
 				96,
 				96
-			); 
+			);
 
 			var sample = sample_test_instance(new_cv.tmp_canvas);
-			var fpreds = determine_features(sample,'face_net'); 
-			var preds  = determine_features(sample,'net'); 
-			var apreds = determine_features(sample,'age_net'); 
+			var fpreds = determine_features(sample,'face_net');
+			var preds  = determine_features(sample,'net');
+			var apreds = determine_features(sample,'age_net');
 			//console.log(preds);
 			if(fpreds[0].k == 1 || (fpreds[1].k == 1 &&  fpreds[1].p > .3) ){continue};
 			number_of_viewers ++;
@@ -423,7 +481,7 @@ Template.dashboard.rendered = function(){
 			<div class="dashboard_face_data ">
 				Sex: Male<br/>
 				Age: Adult
-			</div>	
+			</div>
 		</div>*/
 			var div = document.createElement('div');
 			div.className = 'dashboard_faces';
@@ -448,22 +506,22 @@ Template.dashboard.rendered = function(){
 			div2.innerHTML = t;
 
 			div.appendChild(div2);
-			
-			
-			
+
+
+
 
 			$("#faces").append(div);
 
-		 
+
 
 		}
 
-		
+
 
 		update_right_pannel(number_of_viewers);
 
 
-    
+
 	}
 	var get_faces = function(raw_data){
 		var new_cv = new BasicCanvasTEMP({
@@ -471,7 +529,7 @@ Template.dashboard.rendered = function(){
 			height:tr.height,
 		});
 
-		tr.canvas_copy.paste_to_canvas(new_cv.tmp_canvas); 
+		tr.canvas_copy.paste_to_canvas(new_cv.tmp_canvas);
 
 		//tr.canvas_copy.copy_from_canvas(obj.memory_canvas.canvas,0,0,obj.width,obj.height);
 
@@ -489,9 +547,9 @@ Template.dashboard.rendered = function(){
 	    var wt = new WorkerBasicTransforms(msg);
 	    f_listener({data:wt.run_bff_face_detect()},tr, new_cv);
 	}
-    
+
 	var on_transforms = function(raw_data)
-    {	
+    {
 
     	throttled_bg();
     	throttled_face(raw_data);
@@ -504,26 +562,26 @@ Template.dashboard.rendered = function(){
     var throttled_face = _.throttle(get_faces, 100);
     var tr = false;//VideoHelpers.load('#video_camera',640,480, on_transforms, on_video_loaded, on_video_fail);
 
-    
-    
+
+
     var load_interval = setInterval(
       function(){
         try{
 
         	if(
-        		( !trained_face_l || trained_face_l == undefined) || 
+        		( !trained_face_l || trained_face_l == undefined) ||
         		( !trained_age  || trained_face_l == undefined) ||
-        		( !trained_gender_l || trained_face_l == undefined) 
+        		( !trained_gender_l || trained_face_l == undefined)
         	)
         	{
         		new UserException("InvalidMonthNo");
         		return;
         	}
-          
+
           	if(!video_loaded){
           		tr = VideoHelpers.load('#video_camera',640,480, on_transforms, on_video_loaded, on_video_fail);
           		$('#loading_message_in_circle').html('(Please allow your webcam.)');
-          	
+
           	}
 
           	if(video_failed){
@@ -531,17 +589,26 @@ Template.dashboard.rendered = function(){
           	}
 
           	window.clearInterval(load_interval);
-          
+
         }
         catch(e){
           console.log(e);
           $('#neurons_ids').html(Math.floor(Math.random()*899+101));
         }
-        
+
       },
       0
     );
 
-	
+
+
+}
+
+
+if (Meteor.isServer) {
+
+    Meteor.publish('dashdata', function() {
+      return dashBoardData.find({currentTime: -1},{limit: 1});
+    });
 
 }

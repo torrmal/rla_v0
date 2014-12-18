@@ -13,3 +13,5 @@ manuelschoebel:wait-on-lib
 meteorhacks:npm
 
 npm-container
+http
+

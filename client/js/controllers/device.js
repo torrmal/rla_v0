@@ -1,4 +1,4 @@
-var Device_data = 
+var Device_data =
 	{
 		_id: false,
 		time_started: 0,
@@ -43,7 +43,7 @@ function show_ad(){
 }
 
 Template.device_middle_screen.events(
-	{ 
+	{
 	    'click #connect_to_server': function(){
 	    	//alert($('#device_name').val());
 	    	var device_name = $('#device_name').val();
@@ -51,7 +51,7 @@ Template.device_middle_screen.events(
 	    		$.jStorage.set('device_name', device_name);
 	    		show_ad();
 	    	}
-	      	
+
 	    }
 	}
 );
@@ -80,16 +80,8 @@ Template.device_middle_screen.rendered = function(){
 	tr.on_transforms = function(raw_data)
   	{
 
-  		
-
-		 
-		    
-		  
-
-		 
-
   		//console.log(tr.get_frequencies());
-  		
+
   		var msg = {
 			width:tr.width,
 			height:tr.height,
@@ -113,20 +105,20 @@ Template.device_middle_screen.rendered = function(){
   		catch(e){
   			console.log(e);
   		}
-  		
+
   		tr.get_img8_into_canvas(canney,caney_obj);
 
   		if(!$.jStorage.get('device_name') ){
-  			
+
   			//
   		}
   		else{
 
-  			
+
   			if(count >= 6){
 
-  				
-				
+
+
 
 				msg.method 		= 'run_bff_face_detect';
 				var faces 		= wt.run_bff_face_detect();
@@ -154,7 +146,7 @@ Template.device_middle_screen.rendered = function(){
 				last_time  		= new Date().getTime();
 			}
 		}
-  		
+
   		count ++;
 
 

@@ -1,6 +1,8 @@
 Members = new Meteor.Collection("members");
 
 Router.map( function () {
+  this.route('nn');
+  this.route('analytics')
   this.route('fileupload');
   this.route('akshay');
   this.route('report');

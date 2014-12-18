@@ -1,0 +1,50 @@
+<head>
+	<title>DashBoard Analytics</title>
+</head>
+
+<template name='analytics'>
+	Display Data of Last One
+	<div style="position: fixed; top: 30px; left: 050px;">
+		{{> oneMinute}}
+	</div>
+	<div style="position: fixed; top: 30px; left: 150px;">
+		{{> oneHour}}
+	</div>
+	<div style="position: fixed; top: 30px; left: 250px;">
+		{{> oneDay}}
+	</div>
+	<div style="position: fixed; top: 30px; left: 350px;">
+		{{> oneMonth}}
+	</div>
+	<div style="position: fixed; top: 30px; left: 450px;">
+		{{> oneYear}}
+	</div>
+	<div style="position: fixed; top: 100px; left: 050px;">
+		<p><b>Male Engagement *</b> ___ <span id="mengageID">0</span> </p>
+		<p><b>Female Engagement *</b> ___ <span id="fengageID">0</span> </p>
+		<p><b>Male Ages *</b> ___ <span id="mageID">0</span> </p>
+		<p><b>Female Ages *</b> ___ <span id="fageID">0</span> </p>
+		<p><b>Male Count *</b> ___ <span id="mcountID">0</span> </p>
+		<p><b>Female Count *</b> ___ <span id="fcountID">0</span> </p>
+	</div>
+</template>
+
+<template name="oneMinute">
+	<button id='minID'>Minute</button>
+</template>
+
+<template name="oneHour">
+	<button id='hourID'>Hour</button>
+</template>
+
+<template name="oneDay">
+	<button id='dayID'>Day</button>
+</template>
+
+<template name="oneMonth">
+	<button id='monthID'>Month</button>
+</template>
+
+<template name="oneYear">
+	<button id='yearID'>Year</button>
+</template>
