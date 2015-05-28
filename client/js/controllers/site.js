@@ -25,7 +25,7 @@ Router.map( function () {
     waitOn: function(){
         return [
           IRLibLoader.load('/Chart.min.js'),
-          IRLibLoader.load('/trainerd_class_gender_89_fast.js'),
+          IRLibLoader.load('/trainerd_class_gener_new.js'),
           IRLibLoader.load('/trainerd_class_age.js'),
           IRLibLoader.load('/trainerd_class_face.js')
         ]

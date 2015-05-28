@@ -12,8 +12,8 @@ Template.dashboard.rendered = function(){
 	var number_of_iterations = 3;
 
 	var classes_txt = [
-		'Male',
-		'Female'
+		'Female',
+		'Male'
 	];
 
 	var age_classes_txt = [
@@ -306,6 +306,7 @@ Template.dashboard.rendered = function(){
 		//MaleEngagement[index] = parseFloat(MaleEngagement[index]).toFixed(2);
 
 		if(gender>=0){ 
+			gender = Math.round(gender/3);
 			window[classes_txt[gender]+'Engagement'][index] = window[classes_txt[gender]+'Engagement'][index] + 0.1;
 			window[classes_txt[gender]+'Count'] =  window[classes_txt[gender]+'Count'] + 1;
 			window[classes_txt[gender]+'Ages'][age] =  window[classes_txt[gender]+'Ages'][age] + 1;
@@ -440,8 +441,8 @@ Template.dashboard.rendered = function(){
 
 			var div2 = document.createElement('div');
 			div2.className = 'dashboard_face_data';
-			update_charts(preds[0].k,apreds[0].k);
-			var s1 = classes_txt[preds[0].k];
+			update_charts(preds[0].p,apreds[0].k);
+			var s1 = classes_txt[Math.round(preds[0].p/3)];
 			var s2 = age_classes_txt[apreds[0].k];
 			t = '<div >Sex: '+s1+' </br>';
 			t = t+'Age: '+s2+' </div> ';
